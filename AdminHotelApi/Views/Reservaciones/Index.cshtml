@@ -1,0 +1,39 @@
+﻿@model IEnumerable<AdminHotelApi.Models.Reservacion>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Cliente.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Habitacion.HabitacionId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cliente.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Habitacion.HabitacionId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ReservacionId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ReservacionId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ReservacionId })
+        </td>
+    </tr>
+}
+
+</table>

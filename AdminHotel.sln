@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminHotelApi", "AdminHotelApi\AdminHotelApi.csproj", "{019B33EE-32CE-49D3-B581-5A7F6831A90E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminHotelApi.Tests", "AdminHotelApi.Tests\AdminHotelApi.Tests.csproj", "{145B3B43-143C-462B-AE0C-E30A38FB7D90}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{019B33EE-32CE-49D3-B581-5A7F6831A90E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{019B33EE-32CE-49D3-B581-5A7F6831A90E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{019B33EE-32CE-49D3-B581-5A7F6831A90E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{019B33EE-32CE-49D3-B581-5A7F6831A90E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{145B3B43-143C-462B-AE0C-E30A38FB7D90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{145B3B43-143C-462B-AE0C-E30A38FB7D90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{145B3B43-143C-462B-AE0C-E30A38FB7D90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{145B3B43-143C-462B-AE0C-E30A38FB7D90}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F6441B3-B53D-44E5-8680-9F3AE658C804}
+	EndGlobalSection
+EndGlobal
