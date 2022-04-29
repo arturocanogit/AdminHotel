@@ -114,21 +114,18 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\Api\ClientesController.cs" />
-    <Compile Include="Controllers\Api\HabitacionesController.cs" />
-    <Compile Include="Controllers\Api\ReservacionesController.cs" />
-    <Compile Include="Controllers\Api\TipoHabitacionesController.cs" />
-    <Compile Include="Controllers\ClientesController.cs" />
-    <Compile Include="Controllers\HabitacionesController.cs" />
-    <Compile Include="Controllers\ReservacionesController.cs" />
-    <Compile Include="Controllers\TipoHabitacionesController.cs" />
+    <Compile Include="Controllers\HotelesController.cs" />
     <Compile Include="Data\AdminHotelApiContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Cliente.cs" />
+    <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Habitacion.cs" />
+    <Compile Include="Models\Hotel.cs" />
     <Compile Include="Models\Reservacion.cs" />
+    <Compile Include="Models\TarifaFestivo.cs" />
+    <Compile Include="Models\Tarifa.cs" />
     <Compile Include="Models\TipoHabitacion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -137,26 +134,11 @@
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\TipoHabitaciones\Create.cshtml" />
-    <Content Include="Views\TipoHabitaciones\Delete.cshtml" />
-    <Content Include="Views\TipoHabitaciones\Details.cshtml" />
-    <Content Include="Views\TipoHabitaciones\Edit.cshtml" />
-    <Content Include="Views\TipoHabitaciones\Index.cshtml" />
-    <Content Include="Views\Reservaciones\Create.cshtml" />
-    <Content Include="Views\Reservaciones\Delete.cshtml" />
-    <Content Include="Views\Reservaciones\Details.cshtml" />
-    <Content Include="Views\Reservaciones\Edit.cshtml" />
-    <Content Include="Views\Reservaciones\Index.cshtml" />
-    <Content Include="Views\Clientes\Create.cshtml" />
-    <Content Include="Views\Clientes\Delete.cshtml" />
-    <Content Include="Views\Clientes\Details.cshtml" />
-    <Content Include="Views\Clientes\Edit.cshtml" />
-    <Content Include="Views\Clientes\Index.cshtml" />
-    <Content Include="Views\Habitaciones\Create.cshtml" />
-    <Content Include="Views\Habitaciones\Delete.cshtml" />
-    <Content Include="Views\Habitaciones\Details.cshtml" />
-    <Content Include="Views\Habitaciones\Edit.cshtml" />
-    <Content Include="Views\Habitaciones\Index.cshtml" />
+    <Content Include="Views\Hoteles\Create.cshtml" />
+    <Content Include="Views\Hoteles\Delete.cshtml" />
+    <Content Include="Views\Hoteles\Details.cshtml" />
+    <Content Include="Views\Hoteles\Edit.cshtml" />
+    <Content Include="Views\Hoteles\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -166,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\Api\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

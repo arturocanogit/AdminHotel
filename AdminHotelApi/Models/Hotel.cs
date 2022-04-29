@@ -7,16 +7,12 @@ using System.Web;
 
 namespace AdminHotelApi.Models
 {
-    [Table("TiposHabitaciones")]
-    public class TipoHabitacion : Entity
+    [Table("Hoteles")]
+    public class Hotel : Entity
     {
-        [Key, Column(Order = 0)]
+        [Key]
         public int HotelId { get; set; }
-        [Key, Column(Order = 1)]
-        public int TipoHabitacionId { get; set; }
         [Required, MaxLength(128)]
         public string Nombre { get; set; }
-        public int Capacidad { get; set; }
-        public virtual Hotel Hotel { get; set; }
     }
 }

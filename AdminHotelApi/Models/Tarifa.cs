@@ -7,16 +7,17 @@ using System.Web;
 
 namespace AdminHotelApi.Models
 {
-    [Table("TiposHabitaciones")]
-    public class TipoHabitacion : Entity
+    [Table("Tarifas")]
+    public class Tarifa : Entity
     {
         [Key, Column(Order = 0)]
         public int HotelId { get; set; }
         [Key, Column(Order = 1)]
+        public int TarifaId { get; set; }
         public int TipoHabitacionId { get; set; }
-        [Required, MaxLength(128)]
-        public string Nombre { get; set; }
-        public int Capacidad { get; set; }
-        public virtual Hotel Hotel { get; set; }
+        public int DiaSemanaId { get; set; }
+        public double Precio { get; set; }
+        public double PrecioExtra { get; set; }
+        public virtual TipoHabitacion TipoHabitacion { get; set; }
     }
 }

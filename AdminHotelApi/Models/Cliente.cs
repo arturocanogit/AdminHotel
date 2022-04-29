@@ -8,15 +8,18 @@ using System.Web;
 namespace AdminHotelApi.Models
 {
     [Table("Clientes")]
-    public class Cliente
+    public class Cliente : Entity
     {
-        [Key]
+        [Key, Column(Order = 0)]
+        public int HotelId { get; set; }
+        [Key, Column(Order = 1)]
         public int ClienteId { get; set; }
-        [Required]
+        [Required, MaxLength(128)]
         public string Nombre { get; set; }
-        [Required]
+        [MaxLength(16)]
         public string Telefono { get; set; }
-        [Required]
+        [MaxLength(32)]
         public string Rfc { get; set; }
+        public virtual Hotel Hotel { get; set; }
     }
 }

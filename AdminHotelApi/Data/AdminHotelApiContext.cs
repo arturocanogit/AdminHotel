@@ -1,6 +1,8 @@
-﻿using System;
+﻿using AdminHotelApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
@@ -19,12 +21,19 @@ namespace AdminHotelApi.Data
         {
         }
 
-        public System.Data.Entity.DbSet<AdminHotelApi.Models.TipoHabitacion> TipoHabitacions { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+        }
 
-        public System.Data.Entity.DbSet<AdminHotelApi.Models.Reservacion> Reservacions { get; set; }
+        public DbSet<Hotel> Hoteles { get; set; }
+        public DbSet<TipoHabitacion> TiposHabitaciones { get; set; }
+        public DbSet<Habitacion> Habitaciones { get; set; }
+        public DbSet<Tarifa> Tarifas { get; set; }
+        public DbSet<TarifaFestivo> TarifasFestivos { get; set; }
+        public DbSet<Reservacion> Reservaciones { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
 
-        public System.Data.Entity.DbSet<AdminHotelApi.Models.Cliente> Clientes { get; set; }
 
-        public System.Data.Entity.DbSet<AdminHotelApi.Models.Habitacion> Habitacions { get; set; }
     }
 }
