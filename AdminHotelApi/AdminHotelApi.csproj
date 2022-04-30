@@ -169,6 +169,7 @@
     <Content Include="Views\Reservaciones\Details.cshtml" />
     <Content Include="Views\Reservaciones\Edit.cshtml" />
     <Content Include="Views\Reservaciones\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
