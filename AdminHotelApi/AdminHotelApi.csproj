@@ -132,6 +132,7 @@
     <Compile Include="Models\TarifaFestivo.cs" />
     <Compile Include="Models\Tarifa.cs" />
     <Compile Include="Models\TipoHabitacion.cs" />
+    <Compile Include="Models\Utilerias.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -139,11 +140,6 @@
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Reservaciones\Create.cshtml" />
-    <Content Include="Views\Reservaciones\Delete.cshtml" />
-    <Content Include="Views\Reservaciones\Details.cshtml" />
-    <Content Include="Views\Reservaciones\Edit.cshtml" />
-    <Content Include="Views\Reservaciones\Index.cshtml" />
     <Content Include="Views\Clientes\Create.cshtml" />
     <Content Include="Views\Clientes\Delete.cshtml" />
     <Content Include="Views\Clientes\Details.cshtml" />
@@ -159,6 +155,11 @@
     <Content Include="Views\TiposHabitaciones\Details.cshtml" />
     <Content Include="Views\TiposHabitaciones\Edit.cshtml" />
     <Content Include="Views\TiposHabitaciones\Index.cshtml" />
+    <Content Include="Views\Reservaciones\Create.cshtml" />
+    <Content Include="Views\Reservaciones\Delete.cshtml" />
+    <Content Include="Views\Reservaciones\Details.cshtml" />
+    <Content Include="Views\Reservaciones\Edit.cshtml" />
+    <Content Include="Views\Reservaciones\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

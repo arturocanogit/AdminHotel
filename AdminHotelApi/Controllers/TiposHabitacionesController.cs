@@ -53,9 +53,11 @@ namespace AdminHotelApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                tipoHabitacion.TipoHabitacionId = 
-                    db.TiposHabitaciones.Where(x => x.HotelId == 1)
-                    .Max(x => x.TipoHabitacionId + 1);
+                int tipoHabitacionId = db.TiposHabitaciones
+                    .Where(x => x.HotelId == 1)
+                    .Max(x => (int?)x.TipoHabitacionId) ?? 0;
+
+                tipoHabitacion.TipoHabitacionId = tipoHabitacionId + 1;
 
                 db.TiposHabitaciones.Add(tipoHabitacion);
                 db.SaveChanges();

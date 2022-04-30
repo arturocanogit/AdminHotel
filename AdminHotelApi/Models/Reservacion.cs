@@ -15,9 +15,10 @@ namespace AdminHotelApi.Models
         [Key, Column(Order = 1)]
         public int ReservacionId { get; set; }
         public int ClienteId { get; set; }
-        public int HabitacionId { get; set; }
+        public int? HabitacionId { get; set; }
+        public int TipoHabitacionId { get; set; }
         public DateTime FechaEntrada { get; set; }
-        public DateTime FechaSaida { get; set; }
+        public DateTime FechaSalida { get; set; }
         public virtual Cliente Cliente { get; set; }
         public virtual Habitacion Habitacion { get; set; }
         public virtual TipoHabitacion TipoHabitacion { get; set; }

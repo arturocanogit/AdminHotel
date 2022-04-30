@@ -21,6 +21,12 @@
             @Html.DisplayNameFor(model => model.TipoHabitacion.Nombre)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.FechaEntrada)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaSalida)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Activo)
         </th>
         <th>
@@ -42,6 +48,12 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TipoHabitacion.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaEntrada)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaSalida)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Activo)

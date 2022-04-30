@@ -40,9 +40,9 @@ namespace AdminHotelApi.Controllers
         // GET: Reservaciones/Create
         public ActionResult Create()
         {
-            ViewBag.HotelId = new SelectList(db.Clientes, "HotelId", "Nombre");
-            ViewBag.HotelId = new SelectList(db.Habitaciones, "HotelId", "NumeroHabitacion");
-            ViewBag.HotelId = new SelectList(db.TiposHabitaciones, "HotelId", "Nombre");
+            ViewBag.HotelId = new SelectList(db.Hoteles, "HotelId", "Nombre");
+            ViewBag.ClienteId = new SelectList(db.Clientes, "ClienteId", "Nombre");
+            ViewBag.TipoHabitacionId = new SelectList(db.TiposHabitaciones, "TipoHabitacionId", "Nombre");
             return View();
         }
 
@@ -51,7 +51,7 @@ namespace AdminHotelApi.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "HotelId,ReservacionId,ClienteId,HabitacionId,TipoHabitacionId,Activo,FechaAlta,FechaUpdate")] Reservacion reservacion)
+        public ActionResult Create([Bind(Include = "HotelId,ReservacionId,ClienteId,HabitacionId,TipoHabitacionId,FechaEntrada,FechaSalida,Activo,FechaAlta,FechaUpdate")] Reservacion reservacion)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace AdminHotelApi.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "HotelId,ReservacionId,ClienteId,HabitacionId,TipoHabitacionId,Activo,FechaAlta,FechaUpdate")] Reservacion reservacion)
+        public ActionResult Edit([Bind(Include = "HotelId,ReservacionId,ClienteId,HabitacionId,TipoHabitacionId,FechaEntrada,FechaSaida,Activo,FechaAlta,FechaUpdate")] Reservacion reservacion)
         {
             if (ModelState.IsValid)
             {
