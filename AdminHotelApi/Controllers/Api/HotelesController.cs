@@ -18,9 +18,9 @@ namespace AdminHotelApi.Controllers.Api
         private AdminHotelApiContext db = new AdminHotelApiContext();
 
         // GET: api/Hoteles
-        public IQueryable<Hotel> GetHoteles()
+        public IHttpActionResult GetHoteles()
         {
-            return db.Hoteles;
+            return Ok(db.Hoteles.ToList());
         }
 
         // GET: api/Hoteles/5

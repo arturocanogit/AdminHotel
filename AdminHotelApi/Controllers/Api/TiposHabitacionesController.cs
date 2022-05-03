@@ -18,9 +18,9 @@ namespace AdminHotelApi.Controllers.Api
         private AdminHotelApiContext db = new AdminHotelApiContext();
 
         // GET: api/TiposHabitaciones
-        public IQueryable<TipoHabitacion> GetTiposHabitaciones()
+        public IHttpActionResult GetTiposHabitaciones()
         {
-            return db.TiposHabitaciones;
+            return Ok(db.TiposHabitaciones.ToList());
         }
 
         // GET: api/TiposHabitaciones/5

@@ -18,9 +18,9 @@ namespace AdminHotelApi.Controllers.Api
         private AdminHotelApiContext db = new AdminHotelApiContext();
 
         // GET: api/Reservaciones
-        public IQueryable<Reservacion> GetReservaciones()
+        public IHttpActionResult GetReservaciones()
         {
-            return db.Reservaciones;
+            return Ok(db.Reservaciones.ToList());
         }
 
         // GET: api/Reservaciones/5
@@ -129,6 +129,16 @@ namespace AdminHotelApi.Controllers.Api
         private bool ReservacionExists(int id)
         {
             return db.Reservaciones.Count(e => e.HotelId == id) > 0;
+        }
+
+        // GET: api/Disponibilidades
+        [HttpGet]
+        [Route("api/Disponibilidades")]
+        public IHttpActionResult GetDisponibilidades()
+        {
+            ReservacionDal.Db = db;
+            var disponibilidaes = ReservacionDal.GetDisponibilidades();
+            return Ok(disponibilidaes);
         }
     }
 }

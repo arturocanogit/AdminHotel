@@ -130,17 +130,20 @@
     <Compile Include="Controllers\ReservacionesController.cs" />
     <Compile Include="Controllers\TiposHabitacionesController.cs" />
     <Compile Include="Data\AdminHotelApiContext.cs" />
+    <Compile Include="Data\ReservacionDal.cs" />
+    <Compile Include="Data\StoredProcedure.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Cliente.cs" />
-    <Compile Include="Models\Entity.cs" />
-    <Compile Include="Models\Habitacion.cs" />
-    <Compile Include="Models\Hotel.cs" />
-    <Compile Include="Models\Reservacion.cs" />
-    <Compile Include="Models\TarifaFestivo.cs" />
-    <Compile Include="Models\Tarifa.cs" />
-    <Compile Include="Models\TipoHabitacion.cs" />
+    <Compile Include="Models\Disponibilidad.cs" />
+    <Compile Include="Models\Entities\Cliente.cs" />
+    <Compile Include="Models\Entities\Entity.cs" />
+    <Compile Include="Models\Entities\Habitacion.cs" />
+    <Compile Include="Models\Entities\Hotel.cs" />
+    <Compile Include="Models\Entities\Reservacion.cs" />
+    <Compile Include="Models\Entities\TarifaFestivo.cs" />
+    <Compile Include="Models\Entities\Tarifa.cs" />
+    <Compile Include="Models\Entities\TipoHabitacion.cs" />
     <Compile Include="Models\Utilerias.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
