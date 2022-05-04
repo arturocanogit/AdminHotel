@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AdminHotelApi.Models.TipoHabitacion>
+﻿@model IEnumerable<AdminHotelApi.Models.Habitacion>
 
 @{
     ViewBag.Title = "Index";
@@ -11,11 +11,12 @@
 </p>
 <table class="table">
     <tr>
+        <th>TipoHabitacion</th>
         <th>
-            @Html.DisplayNameFor(model => model.Hotel.Nombre)
+            @Html.DisplayNameFor(model => model.NumeroHabitacion)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Nombre)
+            @Html.DisplayNameFor(model => model.Capacidad)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Activo)
@@ -32,10 +33,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Hotel.Nombre)
+            @Html.DisplayFor(modelItem => item.TipoHabitacion.Nombre)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
+            @Html.DisplayFor(modelItem => item.NumeroHabitacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Capacidad)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Activo)

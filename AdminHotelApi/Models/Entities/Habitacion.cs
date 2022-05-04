@@ -17,6 +17,7 @@ namespace AdminHotelApi.Models
         public int TipoHabitacionId { get; set; }
         [Required, MaxLength(8)]
         public string NumeroHabitacion { get; set; }
+        public int Capacidad { get; set; }
         public virtual TipoHabitacion TipoHabitacion { get; set; }
     }
 }

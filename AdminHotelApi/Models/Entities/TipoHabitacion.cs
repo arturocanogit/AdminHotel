@@ -18,7 +18,6 @@ namespace AdminHotelApi.Models
         public string Nombre { get; set; }
         [MaxLength(256)]
         public string Descripcion { get; set; }
-        public int Capacidad { get; set; }
         public virtual Hotel Hotel { get; set; }
     }
 }

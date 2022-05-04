@@ -122,10 +122,12 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\ClientesController.cs" />
+    <Compile Include="Controllers\Api\HabitacionesController.cs" />
     <Compile Include="Controllers\Api\HotelesController.cs" />
     <Compile Include="Controllers\Api\ReservacionesController.cs" />
     <Compile Include="Controllers\Api\TiposHabitacionesController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\HabitacionesController.cs" />
     <Compile Include="Controllers\HotelesController.cs" />
     <Compile Include="Controllers\ReservacionesController.cs" />
     <Compile Include="Controllers\TiposHabitacionesController.cs" />
@@ -173,6 +175,11 @@
     <Content Include="Views\Reservaciones\Edit.cshtml" />
     <Content Include="Views\Reservaciones\Index.cshtml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
+    <Content Include="Views\Habitaciones\Create.cshtml" />
+    <Content Include="Views\Habitaciones\Delete.cshtml" />
+    <Content Include="Views\Habitaciones\Details.cshtml" />
+    <Content Include="Views\Habitaciones\Edit.cshtml" />
+    <Content Include="Views\Habitaciones\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
