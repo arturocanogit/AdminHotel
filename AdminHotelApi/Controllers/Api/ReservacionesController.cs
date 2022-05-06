@@ -134,10 +134,11 @@ namespace AdminHotelApi.Controllers.Api
         // GET: api/Disponibilidades
         [HttpGet]
         [Route("api/Disponibilidades")]
-        public IHttpActionResult GetDisponibilidades()
+        [ResponseType(typeof(IEnumerable<Disponibilidad>))]
+        public IHttpActionResult GetDisponibilidades(RequestDisponibilidad request)
         {
             ReservacionDal.Db = db;
-            var disponibilidaes = ReservacionDal.GetDisponibilidades();
+            var disponibilidaes = ReservacionDal.GetDisponibilidades(request);
             return Ok(disponibilidaes);
         }
     }

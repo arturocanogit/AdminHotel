@@ -9,9 +9,9 @@ namespace AdminHotelApi.Data
     {
         public static AdminHotelApiContext Db { get; set; }
 
-        public static IEnumerable<T> Execute<T>(string spName)
+        public static IEnumerable<T> Execute<T>(string spName, object[] parameters)
         {
-            DbRawSqlQuery<T> result = Db.Database.SqlQuery<T>(spName);
+            DbRawSqlQuery<T> result = Db.Database.SqlQuery<T>(spName, parameters[0], parameters[1], parameters[2], parameters[3]);
             return result.ToList();
         }
     }

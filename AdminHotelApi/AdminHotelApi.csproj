@@ -146,6 +146,7 @@
     <Compile Include="Models\Entities\TarifaFestivo.cs" />
     <Compile Include="Models\Entities\Tarifa.cs" />
     <Compile Include="Models\Entities\TipoHabitacion.cs" />
+    <Compile Include="Models\RequestDisponibilidad.cs" />
     <Compile Include="Models\Utilerias.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
