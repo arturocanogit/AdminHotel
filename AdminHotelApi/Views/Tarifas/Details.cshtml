@@ -1,0 +1,74 @@
+﻿@model AdminHotelApi.Models.Tarifa
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Tarifa</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoHabitacion.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoHabitacion.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiaSemanaId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiaSemanaId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Precio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Precio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Activo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Activo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaAlta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaAlta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaUpdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaUpdate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

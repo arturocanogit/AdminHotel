@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using AdminHotelApi.Data;
 using AdminHotelApi.Models;
+using AdminHotelApi.Models.Dtos;
 
 namespace AdminHotelApi.Controllers.Api
 {
@@ -134,11 +135,16 @@ namespace AdminHotelApi.Controllers.Api
         // GET: api/Disponibilidades
         [HttpGet]
         [Route("api/Disponibilidades")]
-        [ResponseType(typeof(IEnumerable<Disponibilidad>))]
+        [ResponseType(typeof(IEnumerable<DisponibilidadDto>))]
         public IHttpActionResult GetDisponibilidades(RequestDisponibilidad request)
         {
-            ReservacionDal.Db = db;
-            var disponibilidaes = ReservacionDal.GetDisponibilidades(request);
+            ReservacionDao.Db = db;
+            var disponibilidaes = ReservacionDao.GetDisponibilidades(request);
+            TarifaDao.Db = db;
+            foreach (var item in disponibilidaes)
+            {
+                item.Tarifas = TarifaDao.GetTarifas(item.TipoHabitacionId, request);
+            }
             return Ok(disponibilidaes);
         }
     }

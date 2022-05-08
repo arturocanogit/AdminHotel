@@ -13,11 +13,12 @@ namespace AdminHotelApi.Models
         [Key, Column(Order = 0)]
         public int HotelId { get; set; }
         [Key, Column(Order = 1)]
-        public int TarifaId { get; set; }
         public int TipoHabitacionId { get; set; }
+        [Key, Column(Order = 2)]
+        public int TarifaId { get; set; }
         public int DiaSemanaId { get; set; }
+        public int Personas { get; set; }
         public double Precio { get; set; }
-        public double PrecioExtra { get; set; }
         public virtual TipoHabitacion TipoHabitacion { get; set; }
     }
 }

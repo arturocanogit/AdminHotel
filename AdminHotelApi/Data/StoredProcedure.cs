@@ -11,7 +11,7 @@ namespace AdminHotelApi.Data
 
         public static IEnumerable<T> Execute<T>(string spName, object[] parameters)
         {
-            DbRawSqlQuery<T> result = Db.Database.SqlQuery<T>(spName, parameters[0], parameters[1], parameters[2], parameters[3]);
+            DbRawSqlQuery<T> result = Db.Database.SqlQuery<T>(spName, parameters);
             return result.ToList();
         }
     }

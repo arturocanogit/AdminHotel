@@ -130,14 +130,18 @@
     <Compile Include="Controllers\HabitacionesController.cs" />
     <Compile Include="Controllers\HotelesController.cs" />
     <Compile Include="Controllers\ReservacionesController.cs" />
+    <Compile Include="Controllers\TarifasController.cs" />
+    <Compile Include="Controllers\TarifasFestivosController.cs" />
     <Compile Include="Controllers\TiposHabitacionesController.cs" />
     <Compile Include="Data\AdminHotelApiContext.cs" />
-    <Compile Include="Data\ReservacionDal.cs" />
+    <Compile Include="Data\Daos\ReservacionDao.cs" />
     <Compile Include="Data\StoredProcedure.cs" />
+    <Compile Include="Data\Daos\TarifaDao.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Disponibilidad.cs" />
+    <Compile Include="Models\Dtos\DisponibilidadDto.cs" />
+    <Compile Include="Models\Dtos\TarifaDto.cs" />
     <Compile Include="Models\Entities\Cliente.cs" />
     <Compile Include="Models\Entities\Entity.cs" />
     <Compile Include="Models\Entities\Habitacion.cs" />
@@ -175,12 +179,24 @@
     <Content Include="Views\Reservaciones\Details.cshtml" />
     <Content Include="Views\Reservaciones\Edit.cshtml" />
     <Content Include="Views\Reservaciones\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\AdminHotelApi - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\AdminHotelApi - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <Content Include="Views\Habitaciones\Create.cshtml" />
     <Content Include="Views\Habitaciones\Delete.cshtml" />
     <Content Include="Views\Habitaciones\Details.cshtml" />
     <Content Include="Views\Habitaciones\Edit.cshtml" />
     <Content Include="Views\Habitaciones\Index.cshtml" />
+    <Content Include="Views\TarifasFestivos\Create.cshtml" />
+    <Content Include="Views\TarifasFestivos\Delete.cshtml" />
+    <Content Include="Views\TarifasFestivos\Details.cshtml" />
+    <Content Include="Views\TarifasFestivos\Edit.cshtml" />
+    <Content Include="Views\TarifasFestivos\Index.cshtml" />
+    <Content Include="Views\Tarifas\Create.cshtml" />
+    <Content Include="Views\Tarifas\Delete.cshtml" />
+    <Content Include="Views\Tarifas\Details.cshtml" />
+    <Content Include="Views\Tarifas\Edit.cshtml" />
+    <Content Include="Views\Tarifas\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
