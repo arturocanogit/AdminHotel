@@ -40,7 +40,8 @@ namespace AdminHotelApi.Controllers
         // GET: TarifasFestivos/Create
         public ActionResult Create()
         {
-            ViewBag.HotelId = new SelectList(db.TiposHabitaciones, "HotelId", "Nombre");
+            ViewBag.HotelId = new SelectList(db.Hoteles, "HotelId", "Nombre");
+            ViewBag.TipoHabitacionId = new SelectList(db.TiposHabitaciones, "TipoHabitacionId", "Nombre");
             return View();
         }
 
@@ -49,7 +50,7 @@ namespace AdminHotelApi.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "HotelId,TarifaId,TipoHabitacionId,Precio,PrecioExtra,Activo,FechaAlta,FechaUpdate")] TarifaFestivo tarifaFestivo)
+        public ActionResult Create([Bind(Include = "HotelId,TipoHabitacionId,TarifaId,Fecha,Personas,Precio,Activo,FechaAlta,FechaUpdate")] TarifaFestivo tarifaFestivo)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +84,7 @@ namespace AdminHotelApi.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "HotelId,TarifaId,TipoHabitacionId,Precio,PrecioExtra,Activo,FechaAlta,FechaUpdate")] TarifaFestivo tarifaFestivo)
+        public ActionResult Edit([Bind(Include = "HotelId,TipoHabitacionId,TarifaId,Fecha,Personas,Precio,Activo,FechaAlta,FechaUpdate")] TarifaFestivo tarifaFestivo)
         {
             if (ModelState.IsValid)
             {

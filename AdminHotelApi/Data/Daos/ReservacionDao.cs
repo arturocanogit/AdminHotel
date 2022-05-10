@@ -12,16 +12,16 @@ namespace AdminHotelApi.Data
     {
         public static AdminHotelApiContext Db { get; set; }
 
-        public static IEnumerable<DisponibilidadDto> GetDisponibilidades(RequestDisponibilidad request)
+        public static IEnumerable<DisponibilidadDto> GetDisponibilidades(DateTime fechaEntrada, DateTime fechaSalida)
         {
             StoredProcedure.Db = Db;
             IEnumerable<DisponibilidadDto> disponibilidades = 
                 StoredProcedure.Execute<DisponibilidadDto>("sp_get_disponibilidades {0}, {1}, {2}, {3}", new object[] 
                 { 
-                    request.FechaEntrada, 
-                    request.FechaSalida, 
-                    request.Adultos, 
-                    request.Adultos 
+                    fechaEntrada,
+                    fechaSalida,
+                    0,
+                    0
                 });
             foreach (var item in disponibilidades)
             {

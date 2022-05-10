@@ -11,15 +11,15 @@ namespace AdminHotelApi.Data
     {
         public static AdminHotelApiContext Db { get; set; }
 
-        public static IEnumerable<TarifaDto> GetTarifas(int tipoHabitacionId, RequestDisponibilidad request)
+        public static IEnumerable<TarifaDto> GetTarifas(int tipoHabitacionId, DateTime fechaEntrada, DateTime fechaSalida)
         {
             StoredProcedure.Db = Db;
             IEnumerable<TarifaDto> tarifas =
                 StoredProcedure.Execute<TarifaDto>("sp_get_tarifas {0}, {1}, {2}", new object[]
                 {
                     tipoHabitacionId,
-                    request.FechaEntrada,
-                    request.FechaSalida
+                    fechaEntrada,
+                    fechaSalida
                 });
             return tarifas;
         }

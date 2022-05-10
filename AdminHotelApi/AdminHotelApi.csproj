@@ -225,11 +225,6 @@
     <Content Include="Views\Habitaciones\Details.cshtml" />
     <Content Include="Views\Habitaciones\Edit.cshtml" />
     <Content Include="Views\Habitaciones\Index.cshtml" />
-    <Content Include="Views\TarifasFestivos\Create.cshtml" />
-    <Content Include="Views\TarifasFestivos\Delete.cshtml" />
-    <Content Include="Views\TarifasFestivos\Details.cshtml" />
-    <Content Include="Views\TarifasFestivos\Edit.cshtml" />
-    <Content Include="Views\TarifasFestivos\Index.cshtml" />
     <Content Include="Views\Tarifas\Create.cshtml" />
     <Content Include="Views\Tarifas\Delete.cshtml" />
     <Content Include="Views\Tarifas\Details.cshtml" />
@@ -241,6 +236,11 @@
     <Content Include="Scripts\bootstrap.esm.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Views\TarifasFestivos\Create.cshtml" />
+    <Content Include="Views\TarifasFestivos\Delete.cshtml" />
+    <Content Include="Views\TarifasFestivos\Details.cshtml" />
+    <Content Include="Views\TarifasFestivos\Edit.cshtml" />
+    <Content Include="Views\TarifasFestivos\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

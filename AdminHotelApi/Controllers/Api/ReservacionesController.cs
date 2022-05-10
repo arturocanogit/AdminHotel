@@ -136,14 +136,14 @@ namespace AdminHotelApi.Controllers.Api
         [HttpGet]
         [Route("api/Disponibilidades")]
         [ResponseType(typeof(IEnumerable<DisponibilidadDto>))]
-        public IHttpActionResult GetDisponibilidades(RequestDisponibilidad request)
+        public IHttpActionResult GetDisponibilidades(DateTime fechaEntrada, DateTime fechaSalida)
         {
             ReservacionDao.Db = db;
-            var disponibilidaes = ReservacionDao.GetDisponibilidades(request);
+            var disponibilidaes = ReservacionDao.GetDisponibilidades(fechaEntrada, fechaSalida);
             TarifaDao.Db = db;
             foreach (var item in disponibilidaes)
             {
-                item.Tarifas = TarifaDao.GetTarifas(item.TipoHabitacionId, request);
+                item.Tarifas = TarifaDao.GetTarifas(item.TipoHabitacionId, fechaEntrada, fechaSalida);
             }
             return Ok(disponibilidaes);
         }
