@@ -1,4 +1,5 @@
 ﻿using AdminHotelApi.Models;
+using AdminHotelApi.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -33,7 +34,6 @@ namespace AdminHotelApi.Data
         public DbSet<TarifaFestivo> TarifasFestivos { get; set; }
         public DbSet<Reservacion> Reservaciones { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
-
-
+        public DbSet<TipoHabitacionFoto> TiposHabitacionesFotos { get; set; }
     }
 }

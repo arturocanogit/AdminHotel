@@ -1,5 +1,6 @@
 ﻿using AdminHotelApi.Models;
 using AdminHotelApi.Models.Dtos;
+using AdminHotelApi.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
@@ -25,8 +26,13 @@ namespace AdminHotelApi.Data
                 });
             foreach (var item in disponibilidades)
             {
-                item.TipoHabitacion = Db.TiposHabitaciones
-                    .First(x => x.TipoHabitacionId == item.TipoHabitacionId);
+                item.TipoHabitacion = Utilerias.Mapeador<TipoHabitacionDto, TipoHabitacion>(
+                    Db.TiposHabitaciones.First(x => x.TipoHabitacionId == item.TipoHabitacionId));
+
+                item.TipoHabitacion.DownloadFoto = Db.TiposHabitacionesFotos
+                    .FirstOrDefault(x =>
+                    x.HotelId == item.TipoHabitacion.HotelId &&
+                    x.TipoHabitacionId == item.TipoHabitacion.TipoHabitacionId);
             }
             return disponibilidades;
         }

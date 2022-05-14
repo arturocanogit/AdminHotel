@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using AdminHotelApi.Data;
 using AdminHotelApi.Models;
+using AdminHotelApi.Models.Dtos;
+using AdminHotelApi.Models.Entities;
 
 namespace AdminHotelApi.Controllers
 {
@@ -49,8 +51,14 @@ namespace AdminHotelApi.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "HotelId,TipoHabitacionId,Nombre,Activo,FechaAlta,FechaUpdate")] TipoHabitacion tipoHabitacion)
+        public ActionResult Create([Bind(Include = "HotelId,TipoHabitacionId,Nombre,Descripcion,Activo,FechaAlta,FechaUpdate,UploadFoto")] TipoHabitacionDto tipoHabitacionDto)
         {
+            TipoHabitacion tipoHabitacion =
+                    Utilerias.Mapeador<TipoHabitacion, TipoHabitacionDto>(tipoHabitacionDto);
+
+            var tipoHabitacionFoto = Utilerias.Mapeador<TipoHabitacionFoto, ArchivoDto>(
+                Project.PostedFileToDto(tipoHabitacionDto.UploadFoto));
+
             if (ModelState.IsValid)
             {
                 int tipoHabitacionId = db.TiposHabitaciones
@@ -60,6 +68,7 @@ namespace AdminHotelApi.Controllers
                 tipoHabitacion.TipoHabitacionId = tipoHabitacionId + 1;
 
                 db.TiposHabitaciones.Add(tipoHabitacion);
+                db.TiposHabitacionesFotos.Add(tipoHabitacionFoto);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

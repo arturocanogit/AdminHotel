@@ -162,8 +162,23 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205100428037_InitialCreate.cs" />
+    <Compile Include="Migrations\202205100428037_InitialCreate.Designer.cs">
+      <DependentUpon>202205100428037_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202205130359137_M12052022.cs" />
+    <Compile Include="Migrations\202205130359137_M12052022.Designer.cs">
+      <DependentUpon>202205130359137_M12052022.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202205130510567_M13052022.cs" />
+    <Compile Include="Migrations\202205130510567_M13052022.Designer.cs">
+      <DependentUpon>202205130510567_M13052022.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Dtos\ArchivoDto.cs" />
     <Compile Include="Models\Dtos\DisponibilidadDto.cs" />
     <Compile Include="Models\Dtos\TarifaDto.cs" />
+    <Compile Include="Models\Dtos\TipoHabitacionDto.cs" />
     <Compile Include="Models\Entities\Cliente.cs" />
     <Compile Include="Models\Entities\Entity.cs" />
     <Compile Include="Models\Entities\Habitacion.cs" />
@@ -172,6 +187,9 @@
     <Compile Include="Models\Entities\TarifaFestivo.cs" />
     <Compile Include="Models\Entities\Tarifa.cs" />
     <Compile Include="Models\Entities\TipoHabitacion.cs" />
+    <Compile Include="Models\Entities\TipoHabitacionFoto.cs" />
+    <Compile Include="Models\Interfaces\Archivo.cs" />
+    <Compile Include="Models\Project.cs" />
     <Compile Include="Models\RequestDisponibilidad.cs" />
     <Compile Include="Models\Utilerias.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -250,6 +268,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202205100428037_InitialCreate.resx">
+      <DependentUpon>202205100428037_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205130359137_M12052022.resx">
+      <DependentUpon>202205130359137_M12052022.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205130510567_M13052022.resx">
+      <DependentUpon>202205130510567_M13052022.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -40,7 +40,8 @@ namespace AdminHotelApi.Controllers
         // GET: Tarifas/Create
         public ActionResult Create()
         {
-            ViewBag.HotelId = new SelectList(db.TiposHabitaciones, "HotelId", "Nombre");
+            ViewBag.HotelId = new SelectList(db.Hoteles, "HotelId", "Nombre");
+            ViewBag.TipoHabitacionId = new SelectList(db.TiposHabitaciones, "TipoHabitacionId", "Nombre");
             return View();
         }
 

@@ -16,16 +16,7 @@ namespace AdminHotelApi.Tests
         [TestMethod]
         public void GetDisponibilidadesTest()
         {
-            IHttpActionResult result = new ReservacionesController()
-                .GetDisponibilidades(new RequestDisponibilidad
-            {
-                FechaInicio = DateTime.Now,
-                FechaFin = DateTime.Now.AddDays(5),
-                Adultos = 5,
-                Menores = 2
-            });
-
-            Assert.IsTrue(result != null);
+         
         }
     }
 }
