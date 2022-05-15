@@ -15,12 +15,12 @@ namespace AdminHotelApi.Models.Entities
         [Key, Column(Order = 1)]
         public int TipoHabitacionId { get; set; }
         [Key, Column(Order = 2)]
-        public int TipoHabitacionArchivoId { get; set; }
+        public int TipoHabitacionFotoId { get; set; }
         [Required, MaxLength(128)]
         public string Nombre { get; set; }
         [MaxLength(32)]
         public string TipoContenido { get; set; }
-        [MaxLength(2048)]
+        [MaxLength(10240)]
         public byte[] Contenido { get; set; }
         public virtual TipoHabitacion TipoHabitacion { get; set; }
     }

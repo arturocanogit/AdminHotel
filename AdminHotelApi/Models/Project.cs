@@ -1,4 +1,5 @@
 ﻿using AdminHotelApi.Models.Dtos;
+using Global;
 using System;
 using System.Collections.Generic;
 using System.Linq;

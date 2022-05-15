@@ -11,12 +11,9 @@ namespace AdminHotelApi.Models.Dtos
         public string Nombre { get; set; }
         public int Tamanio { get; set; }
         public byte[] Contenido { get; set; }
-
         public ArchivoDto()
         {
 
         }
-
-        
     }
 }

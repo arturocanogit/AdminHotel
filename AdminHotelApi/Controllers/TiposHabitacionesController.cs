@@ -10,6 +10,7 @@ using AdminHotelApi.Data;
 using AdminHotelApi.Models;
 using AdminHotelApi.Models.Dtos;
 using AdminHotelApi.Models.Entities;
+using Global;
 
 namespace AdminHotelApi.Controllers
 {
@@ -66,6 +67,16 @@ namespace AdminHotelApi.Controllers
                     .Max(x => (int?)x.TipoHabitacionId) ?? 0;
 
                 tipoHabitacion.TipoHabitacionId = tipoHabitacionId + 1;
+
+                int tipoHabitacionFotoId = db.TiposHabitacionesFotos
+                    .Where(x => x.HotelId == tipoHabitacion.HotelId && x.TipoHabitacionId == tipoHabitacion.TipoHabitacionId)
+                    .Max(x => (int?)x.TipoHabitacionId) ?? 0;
+
+                tipoHabitacionFoto.TipoHabitacionFotoId = tipoHabitacionFotoId + 1;
+                tipoHabitacionFoto.HotelId = tipoHabitacion.HotelId;
+                tipoHabitacionFoto.TipoHabitacionId = tipoHabitacion.TipoHabitacionId;
+                tipoHabitacionFoto.Activo = true;
+                tipoHabitacionFoto.FechaAlta = tipoHabitacion.FechaAlta;
 
                 db.TiposHabitaciones.Add(tipoHabitacion);
                 db.TiposHabitacionesFotos.Add(tipoHabitacionFoto);
