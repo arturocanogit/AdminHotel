@@ -2,12 +2,13 @@
 using Global;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
 namespace AdminHotelApi.Models
 {
-    public class Project
+    public static class Project
     {
         public static ArchivoDto PostedFileToDto(HttpPostedFileBase file)
         {

@@ -11,6 +11,7 @@ using System.Web.Http.Description;
 using AdminHotelApi.Data;
 using AdminHotelApi.Models;
 using AdminHotelApi.Models.Dtos;
+using Global;
 
 namespace AdminHotelApi.Controllers.Api
 {
@@ -81,24 +82,31 @@ namespace AdminHotelApi.Controllers.Api
                 return BadRequest(ModelState);
             }
 
+            Cliente cliente = db.Clientes
+                .Where(x => x.Nombre == reservacion.Cliente.Nombre)
+                .FirstOrDefault();
+
+            if (cliente.IsNull())
+            {
+                int clienteId = db.Clientes.Where(x => x.HotelId == 1).Max(x => (int?)x.ClienteId) ?? 0;
+                reservacion.Cliente.HotelId = Constantes.HotelId;
+                reservacion.Cliente.ClienteId = clienteId + 1;
+                reservacion.Cliente.Activo = true;
+                reservacion.Cliente.FechaAlta = DateTime.Now;
+
+                cliente = db.Clientes.Add(reservacion.Cliente);
+            }
+
+
+            int reservacionId = db.Reservaciones.Where(x => x.HotelId == 1).Max(x => (int?)x.ReservacionId) ?? 0;
+            reservacion.HotelId = Constantes.HotelId;
+            reservacion.ReservacionId = reservacionId + 1;
+            reservacion.Activo = true;
+            reservacion.FechaAlta = DateTime.Now;
+            reservacion.ClienteId = cliente.ClienteId;
+
             db.Reservaciones.Add(reservacion);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (ReservacionExists(reservacion.HotelId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            db.SaveChanges();
             return CreatedAtRoute("DefaultApi", new { id = reservacion.HotelId }, reservacion);
         }
 

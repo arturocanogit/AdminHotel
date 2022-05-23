@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,7 +21,9 @@ namespace AdminHotelApi.Models
         public DateTime FechaEntrada { get; set; }
         public DateTime FechaSalida { get; set; }
         public virtual Cliente Cliente { get; set; }
+        [JsonIgnore]
         public virtual Habitacion Habitacion { get; set; }
+        [JsonIgnore]
         public virtual TipoHabitacion TipoHabitacion { get; set; }
     }
 }

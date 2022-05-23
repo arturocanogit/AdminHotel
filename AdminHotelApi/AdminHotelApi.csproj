@@ -186,6 +186,7 @@
       <DependentUpon>202205142343418_M140520221.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Constantes.cs" />
     <Compile Include="Models\CustomExceptionFilter.cs" />
     <Compile Include="Models\Dtos\ArchivoDto.cs" />
     <Compile Include="Models\Dtos\DisponibilidadDto.cs" />

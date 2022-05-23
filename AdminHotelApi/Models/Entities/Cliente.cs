@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,6 +21,7 @@ namespace AdminHotelApi.Models
         public string Telefono { get; set; }
         [MaxLength(32)]
         public string Rfc { get; set; }
+        [JsonIgnore]
         public virtual Hotel Hotel { get; set; }
     }
 }
