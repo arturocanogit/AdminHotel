@@ -8,7 +8,7 @@ namespace AdminHotelApi.Models.Interfaces
     public interface IArchivo
     {
         string Nombre { get; set; }
-        int Tamanio { get; set; }
-        byte[] Contenido { get; set; }
+        int Tamanio { get; }
+        byte[] Contenido { get; }
     }
 }

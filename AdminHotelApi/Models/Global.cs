@@ -45,6 +45,12 @@ namespace Global
             }
             return result;
         }
+
+        internal static MemoryStream HtmlToPdf(string template)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Convierte un stream en un array de bytes
         /// </summary>

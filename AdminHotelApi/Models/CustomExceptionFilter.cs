@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using AdminHotelApi.Models.Dtos;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Http.Filters;
 
 namespace AdminHotelApi.Models
@@ -36,7 +38,11 @@ namespace AdminHotelApi.Models
             //We can log this exception message to the file or database.
             var response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
             {
-                Content = new StringContent("Internal Server Error.Please Contact your Administrator.")
+                Content = new StringContent(Json.Encode(
+                    new ResultadoDto 
+                    { 
+                        Mensaje = "Internal Server Error.Please Contact your Administrator." 
+                    }))
             };
             actionExecutedContext.Response = response;
         }
