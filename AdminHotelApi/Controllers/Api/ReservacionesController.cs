@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Transactions;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -28,25 +29,45 @@ namespace AdminHotelApi.Controllers.Api
         }
 
         // GET: api/Reservaciones/5
-        [ResponseType(typeof(ReservacionDto))]
-        public IHttpActionResult GetReservacion(int id)
+        [ResponseType(typeof(ReservacionPdfDto))]
+        public IHttpActionResult GetReservacion(string id)
         {
-            Reservacion reservacion = db.Reservaciones.Find(id);
-            if (reservacion == null)
+            var resultado = new ReservacionPdfDto
+            {
+                FolioReservacion = id
+            };
+            IEnumerable<Reservacion> reservaciones = db.Reservaciones.Where(x => x.Folio == id);
+            if (!reservaciones.Any())
             {
                 return NotFound();
             }
-            ReservacionDto resultado = Utilerias.Mapeador<ReservacionDto, Reservacion>(reservacion);
-            string template = File.ReadAllText($"{AppContext.BaseDirectory}/Files/TemplateReservacion");
-
-            resultado.Archivo.Nombre = 
-                $"Reservacion{reservacion.FechaAlta.Date}{reservacion.HabitacionId}.pdf";
-
-            using (MemoryStream pdf = Utilerias.HtmlToPdf(template))
+            using (MemoryStream pdf = ReservacionesToPdf(reservaciones))
             {
                 resultado.Archivo.Contenido = pdf.ToArray();
+                resultado.Archivo.Nombre =
+                    $"Reservacion{reservaciones.First().FechaAlta.Date}{reservaciones.First().HabitacionId}.pdf";
             }
             return Ok(resultado);
+        }
+
+        /// <summary>
+        /// Genera el pdf de la reservacion a partir de los datos de la misma
+        /// </summary>
+        /// <param name="reservaciones"></param>
+        /// <returns></returns>
+        private MemoryStream ReservacionesToPdf(IEnumerable<Reservacion> reservaciones)
+        {
+            string template = File.ReadAllText($"{AppContext.BaseDirectory}/Files/TemplateReservacion");
+            template.Replace("[FechaEntrada]", reservaciones.First().FechaEntrada.ToString());
+            template.Replace("[FechaSalida]", reservaciones.First().FechaSalida.ToString());
+
+            StringBuilder iterator = new StringBuilder();
+            foreach (var item in reservaciones)
+            {
+                iterator.Append(item.TipoHabitacion.Nombre + item.Personas + Environment.NewLine);
+            }
+            template.Replace("[Reservaciones]", iterator.ToString());
+            return Utilerias.HtmlToPdf(template);
         }
 
         // PUT: api/Reservaciones/5
@@ -126,37 +147,55 @@ namespace AdminHotelApi.Controllers.Api
         }
 
         // POST: api/Reservaciones
-        [ResponseType(typeof(ResultadoDto))]
-        public IHttpActionResult PostReservaciones(IEnumerable<Reservacion> reservaciones)
+        [ResponseType(typeof(ResultadoDto<Reservacion>))]
+        public IHttpActionResult PostReservaciones(NuevaReservacionDto nuevaReservacion)
         {
+            var folio = Guid.NewGuid().ToString().Split('-')[0];
             using (var scope = new TransactionScope())
             {
-                foreach (var item in reservaciones)
+                foreach (var item in nuevaReservacion.Resevaciones)
                 {
-                    PostReservacion(item);
+                    PostReservacion(new Reservacion
+                    {
+                        Folio = folio,
+                        FechaEntrada = nuevaReservacion.FechaEntrada,
+                        FechaSalida = nuevaReservacion.FechaSalida,
+                        TipoHabitacionId = item.TipoHabitacionId,
+                        Cliente = nuevaReservacion.Cliente,
+                        Personas = item.Personas,
+                        Precio = item.Precio
+                    });
                 }
                 scope.Complete();
             }
-            return Created(string.Empty, new ResultadoDto 
-            { 
-                Mensaje = "Las reservaciones se guardarón crrectamente." 
+            return Created(string.Empty, new ResultadoDto<Reservacion>
+            {
+                Mensaje = "Las reservaciones se guardarón crrectamente.",
+                Datos = new Reservacion { Folio = folio }
             });
         }
 
         // DELETE: api/Reservaciones/5
-        [ResponseType(typeof(Reservacion))]
-        public IHttpActionResult DeleteReservacion(int id)
+        [ResponseType(typeof(ResultadoDto<dynamic>))]
+        public IHttpActionResult DeleteReservacion(string id)
         {
-            Reservacion reservacion = db.Reservaciones.Find(id);
-            if (reservacion == null)
+            IEnumerable<Reservacion> reservaciones = db.Reservaciones.Where(x => x.Folio == id);
+            if (!reservaciones.Any())
             {
                 return NotFound();
             }
 
-            db.Reservaciones.Remove(reservacion);
+            foreach (var item in reservaciones)
+            {
+                item.Activo = false;
+                db.Entry(item).State = EntityState.Modified;
+            }
             db.SaveChanges();
-
-            return Ok(reservacion);
+            return Created(string.Empty, new ResultadoDto<dynamic>
+            {
+                Mensaje = "La reservación se elimino correctamente.",
+                Datos = new { Folio = id }
+            });
         }
 
         protected override void Dispose(bool disposing)

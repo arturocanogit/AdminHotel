@@ -18,6 +18,8 @@ namespace AdminHotelApi.Models
         public int ClienteId { get; set; }
         public int? HabitacionId { get; set; }
         public int TipoHabitacionId { get; set; }
+        public int Personas { get; set; }
+        public int Precio { get; set; }
         public DateTime FechaEntrada { get; set; }
         public DateTime FechaSalida { get; set; }
         public virtual Cliente Cliente { get; set; }
@@ -25,5 +27,7 @@ namespace AdminHotelApi.Models
         public virtual Habitacion Habitacion { get; set; }
         [JsonIgnore]
         public virtual TipoHabitacion TipoHabitacion { get; set; }
+        [Required, MaxLength(64)]
+        public string Folio { get; set; }
     }
 }

@@ -15,7 +15,6 @@ namespace AdminHotelApi.Models
             return new ArchivoDto
             {
                 Nombre = file.FileName,
-                Tamanio = file.ContentLength,
                 Contenido = Utilerias.StreamToByteArray(file.InputStream)
             };
         }

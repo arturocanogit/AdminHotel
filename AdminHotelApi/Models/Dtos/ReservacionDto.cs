@@ -7,7 +7,8 @@ namespace AdminHotelApi.Models.Dtos
 {
     public class ReservacionDto
     {
-        public int ReservacionId { get; set; }
-        public ArchivoDto Archivo { get; set; }
+        public int TipoHabitacionId { get; set; }
+        public int Personas { get; set; }
+        public int Precio { get; set; }
     }
 }
