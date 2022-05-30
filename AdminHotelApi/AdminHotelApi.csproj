@@ -195,13 +195,18 @@
     <Compile Include="Migrations\202205292221017_Migration_29052022_1.Designer.cs">
       <DependentUpon>202205292221017_Migration_29052022_1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202205300451482_M29052022_1.cs" />
+    <Compile Include="Migrations\202205300451482_M29052022_1.Designer.cs">
+      <DependentUpon>202205300451482_M29052022_1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Constantes.cs" />
     <Compile Include="Models\CustomExceptionFilter.cs" />
     <Compile Include="Models\Dtos\ArchivoDto.cs" />
+    <Compile Include="Models\Dtos\ClienteDto.cs" />
     <Compile Include="Models\Dtos\DisponibilidadDto.cs" />
-    <Compile Include="Models\Dtos\NuevaReservacionDto.cs" />
     <Compile Include="Models\Dtos\ReservacionDto.cs" />
+    <Compile Include="Models\Dtos\ReservacionDetalleDto.cs" />
     <Compile Include="Models\Dtos\ReservacionPdfDto.cs" />
     <Compile Include="Models\Dtos\ResultadoDto.cs" />
     <Compile Include="Models\Dtos\TarifaDto.cs" />
@@ -317,6 +322,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202205292221017_Migration_29052022_1.resx">
       <DependentUpon>202205292221017_Migration_29052022_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205300451482_M29052022_1.resx">
+      <DependentUpon>202205300451482_M29052022_1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

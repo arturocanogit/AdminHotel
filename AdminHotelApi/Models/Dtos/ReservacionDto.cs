@@ -7,8 +7,9 @@ namespace AdminHotelApi.Models.Dtos
 {
     public class ReservacionDto
     {
-        public int TipoHabitacionId { get; set; }
-        public int Personas { get; set; }
-        public int Precio { get; set; }
+        public DateTime FechaEntrada { get; set; }
+        public DateTime FechaSalida { get; set; }
+        public ClienteDto Cliente { get; set; }
+        public List<ReservacionDetalleDto> Resevaciones { get; set; }
     }
 }

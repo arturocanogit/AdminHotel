@@ -20,7 +20,7 @@ namespace AdminHotelApi.Models
         [MaxLength(16)]
         public string Telefono { get; set; }
         [MaxLength(32)]
-        public string Rfc { get; set; }
+        public string Email { get; set; }
         [JsonIgnore]
         public virtual Hotel Hotel { get; set; }
     }

@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -29,8 +29,10 @@ namespace AdminHotelApi.Controllers.Api
         }
 
         // GET: api/Reservaciones/5
+        [HttpGet]
+        [Route("api/GetReservacionPdf")]
         [ResponseType(typeof(ReservacionPdfDto))]
-        public IHttpActionResult GetReservacion(string id)
+        public IHttpActionResult GetReservacionPdf(string id)
         {
             var resultado = new ReservacionPdfDto
             {
@@ -48,6 +50,40 @@ namespace AdminHotelApi.Controllers.Api
                     $"Reservacion{reservaciones.First().FechaAlta.Date}{reservaciones.First().HabitacionId}.pdf";
             }
             return Ok(resultado);
+        }
+
+        // GET: api/Reservaciones/5
+        [ResponseType(typeof(ResultadoDto<ReservacionDto>))]
+        public IHttpActionResult GetReservacion(string id)
+        {
+            List<Reservacion> reservaciones = db.Reservaciones
+                .Where(x => x.Folio == id).ToList();
+
+            if (!reservaciones.Any())
+            {
+                return NotFound();
+            }
+            ReservacionDto result = new ReservacionDto
+            {
+                FechaEntrada = reservaciones.First().FechaEntrada,
+                FechaSalida = reservaciones.First().FechaSalida,
+            };
+            int clienteId = reservaciones.First().ClienteId;
+            Cliente cliente = db.Clientes
+                .Where(x => x.HotelId == Constantes.HotelId && x.ClienteId == clienteId)
+                .First();
+
+            result.Cliente = Utilerias.Mapeador<ClienteDto, Cliente>(cliente);
+            result.Resevaciones = new List<ReservacionDetalleDto>();
+            foreach (var item in reservaciones)
+            {
+                result.Resevaciones.Add(Utilerias
+                    .Mapeador<ReservacionDetalleDto, Reservacion>(item));
+            };
+            return Ok(new ResultadoDto<ReservacionDto> 
+            { 
+                Datos = result 
+            });
         }
 
         /// <summary>
@@ -147,8 +183,8 @@ namespace AdminHotelApi.Controllers.Api
         }
 
         // POST: api/Reservaciones
-        [ResponseType(typeof(ResultadoDto<Reservacion>))]
-        public IHttpActionResult PostReservaciones(NuevaReservacionDto nuevaReservacion)
+        [ResponseType(typeof(ResultadoDto<dynamic>))]
+        public IHttpActionResult PostReservaciones(ReservacionDto nuevaReservacion)
         {
             var folio = Guid.NewGuid().ToString().Split('-')[0];
             using (var scope = new TransactionScope())
@@ -161,17 +197,17 @@ namespace AdminHotelApi.Controllers.Api
                         FechaEntrada = nuevaReservacion.FechaEntrada,
                         FechaSalida = nuevaReservacion.FechaSalida,
                         TipoHabitacionId = item.TipoHabitacionId,
-                        Cliente = nuevaReservacion.Cliente,
+                        Cliente = Utilerias.Mapeador<Cliente, ClienteDto>(nuevaReservacion.Cliente),
                         Personas = item.Personas,
                         Precio = item.Precio
                     });
                 }
                 scope.Complete();
             }
-            return Created(string.Empty, new ResultadoDto<Reservacion>
+            return Created(string.Empty, new ResultadoDto<dynamic>
             {
-                Mensaje = "Las reservaciones se guardarón crrectamente.",
-                Datos = new Reservacion { Folio = folio }
+                Mensaje = "Las reservaciones se guardarón correctamente.",
+                Datos = new { Folio = folio }
             });
         }
 
