@@ -156,7 +156,7 @@
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\HabitacionesController.cs" />
     <Compile Include="Controllers\HotelesController.cs" />
-    <Compile Include="Controllers\ReservacionesController.cs" />
+    <Compile Include="Controllers\ReservacionesDetallesController.cs" />
     <Compile Include="Controllers\TarifasController.cs" />
     <Compile Include="Controllers\TarifasFestivosController.cs" />
     <Compile Include="Controllers\TiposHabitacionesController.cs" />
@@ -199,6 +199,10 @@
     <Compile Include="Migrations\202205300451482_M29052022_1.Designer.cs">
       <DependentUpon>202205300451482_M29052022_1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202206040417125_M03062022.cs" />
+    <Compile Include="Migrations\202206040417125_M03062022.Designer.cs">
+      <DependentUpon>202206040417125_M03062022.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Constantes.cs" />
     <Compile Include="Models\CustomExceptionFilter.cs" />
@@ -216,6 +220,7 @@
     <Compile Include="Models\Entities\Habitacion.cs" />
     <Compile Include="Models\Entities\Hotel.cs" />
     <Compile Include="Models\Entities\Reservacion.cs" />
+    <Compile Include="Models\Entities\ReservacionDetalle.cs" />
     <Compile Include="Models\Entities\TarifaFestivo.cs" />
     <Compile Include="Models\Entities\Tarifa.cs" />
     <Compile Include="Models\Entities\TipoHabitacion.cs" />
@@ -262,11 +267,6 @@
     <Content Include="Views\TiposHabitaciones\Details.cshtml" />
     <Content Include="Views\TiposHabitaciones\Edit.cshtml" />
     <Content Include="Views\TiposHabitaciones\Index.cshtml" />
-    <Content Include="Views\Reservaciones\Create.cshtml" />
-    <Content Include="Views\Reservaciones\Delete.cshtml" />
-    <Content Include="Views\Reservaciones\Details.cshtml" />
-    <Content Include="Views\Reservaciones\Edit.cshtml" />
-    <Content Include="Views\Reservaciones\Index.cshtml" />
     <None Include="Properties\PublishProfiles\AdminHotelApi - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\AdminHotelApi - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
@@ -325,6 +325,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202205300451482_M29052022_1.resx">
       <DependentUpon>202205300451482_M29052022_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202206040417125_M03062022.resx">
+      <DependentUpon>202206040417125_M03062022.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

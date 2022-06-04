@@ -14,6 +14,7 @@ using System.Web.Http.Description;
 using AdminHotelApi.Data;
 using AdminHotelApi.Models;
 using AdminHotelApi.Models.Dtos;
+using AdminHotelApi.Models.Entities;
 using Global;
 
 namespace AdminHotelApi.Controllers.Api
@@ -25,86 +26,112 @@ namespace AdminHotelApi.Controllers.Api
         // GET: api/Reservaciones
         public IHttpActionResult GetReservaciones()
         {
-            return Ok(db.Reservaciones.ToList());
+            List<Reservacion> reservaciones = db.Reservaciones
+                .Where(x => x.HotelId == Constantes.HotelId && x.Activo).ToList();
+
+            IEnumerable<ReservacionDto> resultado = reservaciones
+                .Select(x => ReservacionToReservacionDto(x));
+
+            return Ok(new ResultadoDto<IEnumerable<ReservacionDto>>
+            {
+                Datos = resultado
+            });
         }
 
-        // GET: api/Reservaciones/5
-        [HttpGet]
-        [Route("api/GetReservacionPdf")]
-        [ResponseType(typeof(ReservacionPdfDto))]
-        public IHttpActionResult GetReservacionPdf(string id)
-        {
-            var resultado = new ReservacionPdfDto
-            {
-                FolioReservacion = id
-            };
-            IEnumerable<Reservacion> reservaciones = db.Reservaciones.Where(x => x.Folio == id);
-            if (!reservaciones.Any())
-            {
-                return NotFound();
-            }
-            using (MemoryStream pdf = ReservacionesToPdf(reservaciones))
-            {
-                resultado.Archivo.Contenido = pdf.ToArray();
-                resultado.Archivo.Nombre =
-                    $"Reservacion{reservaciones.First().FechaAlta.Date}{reservaciones.First().HabitacionId}.pdf";
-            }
-            return Ok(resultado);
-        }
+        //// GET: api/Reservaciones/5
+        //[HttpGet]
+        //[Route("api/GetReservacionPdf")]
+        //[ResponseType(typeof(ReservacionPdfDto))]
+        //public IHttpActionResult GetReservacionPdf(string id)
+        //{
+        //    var resultado = new ReservacionPdfDto
+        //    {
+        //        FolioReservacion = id
+        //    };
+        //    IEnumerable<Reservacion> reservaciones = db.Reservaciones.Where(x => x.Folio == id);
+        //    if (!reservaciones.Any())
+        //    {
+        //        return NotFound();
+        //    }
+        //    using (MemoryStream pdf = ReservacionesToPdf(reservaciones))
+        //    {
+        //        resultado.Archivo.Contenido = pdf.ToArray();
+        //        resultado.Archivo.Nombre =
+        //            $"Reservacion{reservaciones.First().FechaAlta.Date}{reservaciones.First().HabitacionId}.pdf";
+        //    }
+        //    return Ok(resultado);
+        //}
 
         // GET: api/Reservaciones/5
         [ResponseType(typeof(ResultadoDto<ReservacionDto>))]
         public IHttpActionResult GetReservacion(string id)
         {
-            List<Reservacion> reservaciones = db.Reservaciones
-                .Where(x => x.Folio == id).ToList();
+            Reservacion reservacion = db.Reservaciones
+               .First(x => x.Folio == id && x.Activo);
 
-            if (!reservaciones.Any())
+            if (reservacion.IsNull())
             {
                 return NotFound();
             }
-            ReservacionDto result = new ReservacionDto
-            {
-                FechaEntrada = reservaciones.First().FechaEntrada,
-                FechaSalida = reservaciones.First().FechaSalida,
-            };
-            int clienteId = reservaciones.First().ClienteId;
+            var resultado = ReservacionToReservacionDto(reservacion);
+            return Ok(new ResultadoDto<ReservacionDto> 
+            { 
+                Datos = resultado
+            });
+        }
+
+        private ReservacionDto ReservacionToReservacionDto(Reservacion reservacion)
+        {
+            int clienteId = reservacion.ClienteId;
             Cliente cliente = db.Clientes
                 .Where(x => x.HotelId == Constantes.HotelId && x.ClienteId == clienteId)
                 .First();
 
-            result.Cliente = Utilerias.Mapeador<ClienteDto, Cliente>(cliente);
-            result.Resevaciones = new List<ReservacionDetalleDto>();
-            foreach (var item in reservaciones)
+            ReservacionDto resultado = new ReservacionDto();
+            resultado.Folio = reservacion.Folio;
+            resultado.FechaEntrada = reservacion.FechaEntrada;
+            resultado.FechaSalida = reservacion.FechaSalida;
+
+            resultado.Cliente = Utilerias.Mapeador<ClienteDto, Cliente>(cliente);
+
+            var reservacionDetalles = db.ReservacionDetalles
+                .Where(x => x.HotelId == Constantes.HotelId && x.ReservacionId == reservacion.ReservacionId).ToList();
+
+            resultado.Resevaciones = new List<ReservacionDetalleDto>();
+            foreach (var reservacionDetalle in reservacionDetalles)
             {
-                result.Resevaciones.Add(Utilerias
-                    .Mapeador<ReservacionDetalleDto, Reservacion>(item));
+                ReservacionDetalleDto detalle = Utilerias
+                    .Mapeador<ReservacionDetalleDto, ReservacionDetalle>(reservacionDetalle);
+
+                detalle.TipoHabitacion = Utilerias
+                    .Mapeador<TipoHabitacionDto, TipoHabitacion>(db.TiposHabitaciones
+                    .First(x => x.HotelId == Constantes.HotelId && x.TipoHabitacionId == reservacionDetalle.TipoHabitacionId));
+
+                resultado.Resevaciones.Add(detalle);
             };
-            return Ok(new ResultadoDto<ReservacionDto> 
-            { 
-                Datos = result 
-            });
+
+            return resultado;
         }
 
-        /// <summary>
-        /// Genera el pdf de la reservacion a partir de los datos de la misma
-        /// </summary>
-        /// <param name="reservaciones"></param>
-        /// <returns></returns>
-        private MemoryStream ReservacionesToPdf(IEnumerable<Reservacion> reservaciones)
-        {
-            string template = File.ReadAllText($"{AppContext.BaseDirectory}/Files/TemplateReservacion");
-            template.Replace("[FechaEntrada]", reservaciones.First().FechaEntrada.ToString());
-            template.Replace("[FechaSalida]", reservaciones.First().FechaSalida.ToString());
+        ///// <summary>
+        ///// Genera el pdf de la reservacion a partir de los datos de la misma
+        ///// </summary>
+        ///// <param name="reservaciones"></param>
+        ///// <returns></returns>
+        //private MemoryStream ReservacionesToPdf(IEnumerable<Reservacion> reservaciones)
+        //{
+        //    string template = File.ReadAllText($"{AppContext.BaseDirectory}/Files/TemplateReservacion");
+        //    template.Replace("[FechaEntrada]", reservaciones.First().FechaEntrada.ToString());
+        //    template.Replace("[FechaSalida]", reservaciones.First().FechaSalida.ToString());
 
-            StringBuilder iterator = new StringBuilder();
-            foreach (var item in reservaciones)
-            {
-                iterator.Append(item.TipoHabitacion.Nombre + item.Personas + Environment.NewLine);
-            }
-            template.Replace("[Reservaciones]", iterator.ToString());
-            return Utilerias.HtmlToPdf(template);
-        }
+        //    StringBuilder iterator = new StringBuilder();
+        //    foreach (var item in reservaciones)
+        //    {
+        //        iterator.Append(item.TipoHabitacion.Nombre + item.Personas + Environment.NewLine);
+        //    }
+        //    template.Replace("[Reservaciones]", iterator.ToString());
+        //    return Utilerias.HtmlToPdf(template);
+        //}
 
         // PUT: api/Reservaciones/5
         [ResponseType(typeof(void))]
@@ -142,67 +169,70 @@ namespace AdminHotelApi.Controllers.Api
         }
 
         // POST: api/Reservaciones
-        [ResponseType(typeof(Reservacion))]
-        [Route("api/Reservacion")]
-        public IHttpActionResult PostReservacion(Reservacion reservacion)
+        [ResponseType(typeof(ReservacionDto))]
+        public IHttpActionResult PostReservacion(ReservacionDto reservacion)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var clienteId = 0;
 
             Cliente cliente = db.Clientes
                 .Where(x => x.Nombre == reservacion.Cliente.Nombre)
                 .FirstOrDefault();
 
+            //Si no existe el cliente se crea
             if (cliente.IsNull())
             {
-                int clienteId = db.Clientes.Where(x => x.HotelId == 1).Max(x => (int?)x.ClienteId) ?? 0;
-                reservacion.Cliente.HotelId = Constantes.HotelId;
-                reservacion.Cliente.ClienteId = clienteId + 1;
-                reservacion.Cliente.Activo = true;
-                reservacion.Cliente.FechaAlta = DateTime.Now;
+                clienteId = (db.Clientes
+                    .Where(x => x.HotelId == 1).Max(x => (int?)x.ClienteId) ?? 0) + 1;
 
-                cliente = db.Clientes.Add(reservacion.Cliente);
+                cliente = Utilerias.Mapeador<Cliente, ClienteDto>(reservacion.Cliente);
+                cliente.HotelId = Constantes.HotelId;
+                cliente.ClienteId = clienteId;
+                cliente.Activo = true;
+                cliente.FechaAlta = DateTime.Now;
+
+                db.Clientes.Add(cliente);
+                db.SaveChanges();
             }
-            else
+            clienteId = cliente.ClienteId;
+
+            int reservacionId = (db.Reservaciones
+                .Where(x => x.HotelId == 1).Max(x => (int?)x.ReservacionId) ?? 0) + 1;
+
+            string folio = Guid.NewGuid().ToString().Split('-')[0];
+
+            //Se da de alta la nueva reservacion
+            db.Reservaciones.Add(new Reservacion 
             {
-                reservacion.Cliente = cliente;
-            }
-
-            int reservacionId = db.Reservaciones.Where(x => x.HotelId == 1).Max(x => (int?)x.ReservacionId) ?? 0;
-            reservacion.HotelId = Constantes.HotelId;
-            reservacion.ReservacionId = reservacionId + 1;
-            reservacion.Activo = true;
-            reservacion.FechaAlta = DateTime.Now;
-            reservacion.ClienteId = cliente.ClienteId;
-
-            db.Reservaciones.Add(reservacion);
+                HotelId = Constantes.HotelId,
+                ReservacionId = reservacionId,
+                Folio = folio,
+                ClienteId = clienteId,
+                FechaEntrada = reservacion.FechaEntrada,
+                FechaSalida = reservacion.FechaSalida,
+                Activo = true,
+                FechaAlta = DateTime.Now
+            });
             db.SaveChanges();
-            return CreatedAtRoute("DefaultApi", new { id = reservacion.HotelId }, reservacion);
-        }
 
-        // POST: api/Reservaciones
-        [ResponseType(typeof(ResultadoDto<dynamic>))]
-        public IHttpActionResult PostReservaciones(ReservacionDto nuevaReservacion)
-        {
-            var folio = Guid.NewGuid().ToString().Split('-')[0];
-            using (var scope = new TransactionScope())
+            foreach (var reservacionDetalle in reservacion.Resevaciones)
             {
-                foreach (var item in nuevaReservacion.Resevaciones)
+                int reservacionDetalleId = (db.ReservacionDetalles
+                .Where(x => x.HotelId == 1 && x.ReservacionId == reservacionId)
+                .Max(x => (int?)x.ReservacionDetalleId) ?? 0) + 1;
+
+                //Se da de alta del detalle de la reservacion
+                db.ReservacionDetalles.Add(new ReservacionDetalle
                 {
-                    PostReservacion(new Reservacion
-                    {
-                        Folio = folio,
-                        FechaEntrada = nuevaReservacion.FechaEntrada,
-                        FechaSalida = nuevaReservacion.FechaSalida,
-                        TipoHabitacionId = item.TipoHabitacionId,
-                        Cliente = Utilerias.Mapeador<Cliente, ClienteDto>(nuevaReservacion.Cliente),
-                        Personas = item.Personas,
-                        Precio = item.Precio
-                    });
-                }
-                scope.Complete();
+                    HotelId = Constantes.HotelId,
+                    ReservacionId = reservacionId,
+                    ReservacionDetalleId = reservacionDetalleId,
+                    TipoHabitacionId = reservacionDetalle.TipoHabitacionId,
+                    Personas = reservacionDetalle.Personas,
+                    Precio = reservacionDetalle.Precio,
+                    Activo = true,
+                    FechaAlta = DateTime.Now
+                });
+                db.SaveChanges();
             }
             return Created(string.Empty, new ResultadoDto<dynamic>
             {

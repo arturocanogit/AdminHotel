@@ -35,5 +35,7 @@ namespace AdminHotelApi.Data
         public DbSet<Reservacion> Reservaciones { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<TipoHabitacionFoto> TiposHabitacionesFotos { get; set; }
+
+        public System.Data.Entity.DbSet<AdminHotelApi.Models.Entities.ReservacionDetalle> ReservacionDetalles { get; set; }
     }
 }

@@ -36,11 +36,17 @@ namespace Global
             Type typeSource = typeof(TSource);
             foreach (var property in result.GetType().GetProperties())
             {
-                var propertySource = typeSource.GetProperty(property.Name);
-                if (propertySource != null)
+                //Las propiedades virtuales no se mapean
+                if (property.PropertyType.IsPrimitive || 
+                    property.PropertyType == typeof(string) ||
+                    property.PropertyType == typeof(DateTime))
                 {
-                    property.SetValue(result,
-                    typeSource.GetProperty(property.Name).GetValue(tipoHabitacionDto));
+                    var propertySource = typeSource.GetProperty(property.Name);
+                    if (propertySource != null)
+                    {
+                        property.SetValue(result,
+                        typeSource.GetProperty(property.Name).GetValue(tipoHabitacionDto));
+                    }
                 }
             }
             return result;
