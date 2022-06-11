@@ -38,29 +38,50 @@ namespace AdminHotelApi.Controllers.Api
             });
         }
 
-        //// GET: api/Reservaciones/5
-        //[HttpGet]
-        //[Route("api/GetReservacionPdf")]
-        //[ResponseType(typeof(ReservacionPdfDto))]
-        //public IHttpActionResult GetReservacionPdf(string id)
-        //{
-        //    var resultado = new ReservacionPdfDto
-        //    {
-        //        FolioReservacion = id
-        //    };
-        //    IEnumerable<Reservacion> reservaciones = db.Reservaciones.Where(x => x.Folio == id);
-        //    if (!reservaciones.Any())
-        //    {
-        //        return NotFound();
-        //    }
-        //    using (MemoryStream pdf = ReservacionesToPdf(reservaciones))
-        //    {
-        //        resultado.Archivo.Contenido = pdf.ToArray();
-        //        resultado.Archivo.Nombre =
-        //            $"Reservacion{reservaciones.First().FechaAlta.Date}{reservaciones.First().HabitacionId}.pdf";
-        //    }
-        //    return Ok(resultado);
-        //}
+        // GET: api/Reservaciones/5
+        [HttpGet]
+        [Route("api/ReservacionPdf/{Id}")]
+        [ResponseType(typeof(ReservacionPdfDto))]
+        public IHttpActionResult ReservacionPdf(string id)
+        {
+            var resultado = new ReservacionPdfDto
+            {
+                FolioReservacion = id
+            };
+            Reservacion reservacion = db.Reservaciones.FirstOrDefault(x => x.Folio == id);
+            if (reservacion.IsNull())
+            {
+                return NotFound();
+            }
+            ReservacionDto reservacionDto = ReservacionToReservacionDto(reservacion);
+            using (MemoryStream pdf = ReservacionToPdf(reservacionDto))
+            {
+                resultado.Archivo.Contenido = pdf.ToArray();
+                resultado.Archivo.Nombre =
+                    $"Reservacion{reservacion.FechaAlta.Date}{reservacion.Folio}.pdf";
+            }
+            return Ok(resultado);
+        }
+
+        /// <summary>
+        /// Genera el pdf de la reservacion a partir de los datos de la misma
+        /// </summary>
+        /// <param name="reservaciones"></param>
+        /// <returns></returns>
+        private MemoryStream ReservacionToPdf(ReservacionDto reservacion)
+        {
+            string template = File.ReadAllText($"{AppContext.BaseDirectory}/Files/TemplateReservacion.html");
+            template = template.Replace("[FechaEntrada]", reservacion.FechaEntrada.ToString());
+            template = template.Replace("[FechaSalida]", reservacion.FechaSalida.ToString());
+
+            StringBuilder iterator = new StringBuilder();
+            foreach (var item in reservacion.Resevaciones)
+            {
+                iterator.Append($"<tr><td>{item.TipoHabitacion.Nombre + item.Personas}</td></tr>");
+            }
+            template = template.Replace("[Reservaciones]", iterator.ToString());
+            return Utilerias.HtmlToPdf(template);
+        }
 
         // GET: api/Reservaciones/5
         [ResponseType(typeof(ResultadoDto<ReservacionDto>))]
@@ -112,26 +133,6 @@ namespace AdminHotelApi.Controllers.Api
 
             return resultado;
         }
-
-        ///// <summary>
-        ///// Genera el pdf de la reservacion a partir de los datos de la misma
-        ///// </summary>
-        ///// <param name="reservaciones"></param>
-        ///// <returns></returns>
-        //private MemoryStream ReservacionesToPdf(IEnumerable<Reservacion> reservaciones)
-        //{
-        //    string template = File.ReadAllText($"{AppContext.BaseDirectory}/Files/TemplateReservacion");
-        //    template.Replace("[FechaEntrada]", reservaciones.First().FechaEntrada.ToString());
-        //    template.Replace("[FechaSalida]", reservaciones.First().FechaSalida.ToString());
-
-        //    StringBuilder iterator = new StringBuilder();
-        //    foreach (var item in reservaciones)
-        //    {
-        //        iterator.Append(item.TipoHabitacion.Nombre + item.Personas + Environment.NewLine);
-        //    }
-        //    template.Replace("[Reservaciones]", iterator.ToString());
-        //    return Utilerias.HtmlToPdf(template);
-        //}
 
         // PUT: api/Reservaciones/5
         [ResponseType(typeof(void))]
