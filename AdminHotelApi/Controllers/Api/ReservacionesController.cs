@@ -41,7 +41,7 @@ namespace AdminHotelApi.Controllers.Api
         // GET: api/Reservaciones/5
         [HttpGet]
         [Route("api/ReservacionPdf/{Id}")]
-        [ResponseType(typeof(ReservacionPdfDto))]
+        [ResponseType(typeof(ResultadoDto<ReservacionPdfDto>))]
         public IHttpActionResult ReservacionPdf(string id)
         {
             var resultado = new ReservacionPdfDto
@@ -61,7 +61,10 @@ namespace AdminHotelApi.Controllers.Api
                 resultado.Archivo.Nombre =
                     $"Reservacion_{reservacion.Folio}.pdf";
             }
-            return Ok(resultado);
+            return Ok(new ResultadoDto<ReservacionPdfDto>
+            {
+                Datos = resultado
+            });
         }
 
         /// <summary>
@@ -89,7 +92,7 @@ namespace AdminHotelApi.Controllers.Api
         public IHttpActionResult GetReservacion(string id)
         {
             Reservacion reservacion = db.Reservaciones
-               .First(x => x.Folio == id && x.Activo);
+               .FirstOrDefault(x => x.Folio == id && x.Activo);
 
             if (reservacion.IsNull())
             {
@@ -283,7 +286,7 @@ namespace AdminHotelApi.Controllers.Api
         // GET: api/Disponibilidades
         [HttpGet]
         [Route("api/Disponibilidades")]
-        [ResponseType(typeof(IEnumerable<DisponibilidadDto>))]
+        [ResponseType(typeof(ResultadoDto<IEnumerable<DisponibilidadDto>>))]
         public IHttpActionResult GetDisponibilidades(DateTime fechaEntrada, DateTime fechaSalida)
         {
             ReservacionDao.Db = db;
@@ -293,7 +296,10 @@ namespace AdminHotelApi.Controllers.Api
             {
                 item.Tarifas = TarifaDao.GetTarifas(item.TipoHabitacionId, fechaEntrada, fechaSalida);
             }
-            return Ok(disponibilidaes);
+            return Ok(new ResultadoDto<IEnumerable<DisponibilidadDto>>
+            {
+                Datos = disponibilidaes
+            });
         }
     }
 }
