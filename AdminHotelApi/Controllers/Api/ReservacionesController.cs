@@ -46,7 +46,8 @@ namespace AdminHotelApi.Controllers.Api
         {
             var resultado = new ReservacionPdfDto
             {
-                FolioReservacion = id
+                FolioReservacion = id,
+                Archivo = new ArchivoDto()
             };
             Reservacion reservacion = db.Reservaciones.FirstOrDefault(x => x.Folio == id);
             if (reservacion.IsNull())
@@ -58,7 +59,7 @@ namespace AdminHotelApi.Controllers.Api
             {
                 resultado.Archivo.Contenido = pdf.ToArray();
                 resultado.Archivo.Nombre =
-                    $"Reservacion{reservacion.FechaAlta.Date}{reservacion.Folio}.pdf";
+                    $"Reservacion_{reservacion.Folio}.pdf";
             }
             return Ok(resultado);
         }
@@ -71,8 +72,8 @@ namespace AdminHotelApi.Controllers.Api
         private MemoryStream ReservacionToPdf(ReservacionDto reservacion)
         {
             string template = File.ReadAllText($"{AppContext.BaseDirectory}/Files/TemplateReservacion.html");
-            template = template.Replace("[FechaEntrada]", reservacion.FechaEntrada.ToString());
-            template = template.Replace("[FechaSalida]", reservacion.FechaSalida.ToString());
+            template = template.Replace("[FechaEntrada]", string.Format("{0:MM/dd/yyyy}", reservacion.FechaEntrada));
+            template = template.Replace("[FechaSalida]", string.Format("{0:MM/dd/yyyy}", reservacion.FechaSalida));
 
             StringBuilder iterator = new StringBuilder();
             foreach (var item in reservacion.Resevaciones)

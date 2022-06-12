@@ -51,10 +51,30 @@ namespace Global
             }
             return result;
         }
-
-        internal static MemoryStream HtmlToPdf(string template)
+        /// <summary>
+        /// Convierte texto html en pdf
+        /// </summary>
+        /// <param name="template"></param>
+        /// <returns></returns>
+        public static MemoryStream HtmlToPdf(string template)
         {
-            throw new NotImplementedException();
+            using (var stream = new MemoryStream())
+            {
+                using (var writer = new StreamWriter(stream))
+                {
+                    writer.Write(template);
+                    writer.Flush();
+
+                    using (var result = new MemoryStream())
+                    {
+                        stream.Position = 0;
+                        Aspose.Pdf.Document pdfDocument = new Aspose.Pdf.Document(stream, new Aspose.Pdf.HtmlLoadOptions());
+
+                        pdfDocument.Save(result);
+                        return result;
+                    }
+                }
+            }
         }
 
         /// <summary>
