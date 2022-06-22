@@ -24,6 +24,7 @@ namespace AdminHotelApi.Controllers.Api
         private AdminHotelApiContext db = new AdminHotelApiContext();
 
         // GET: api/Reservaciones
+        [ResponseType(typeof(ResultadoDto<IEnumerable<ReservacionDto>>))]
         public IHttpActionResult GetReservaciones()
         {
             List<Reservacion> reservaciones = db.Reservaciones

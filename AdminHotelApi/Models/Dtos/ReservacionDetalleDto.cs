@@ -11,5 +11,6 @@ namespace AdminHotelApi.Models.Dtos
         public int Personas { get; set; }
         public int Precio { get; set; }
         public int TipoHabitacionId { get; set; }
+        public bool Desayuno { get; set; }
     }
 }

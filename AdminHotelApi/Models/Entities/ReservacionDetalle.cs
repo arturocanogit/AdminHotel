@@ -20,6 +20,7 @@ namespace AdminHotelApi.Models.Entities
         public int TipoHabitacionId { get; set; }
         public int Personas { get; set; }
         public int Precio { get; set; }
+        public bool Desayuno { get; set; }
         [JsonIgnore]
         public virtual Reservacion Reservacion { get; set; }
         [JsonIgnore]
