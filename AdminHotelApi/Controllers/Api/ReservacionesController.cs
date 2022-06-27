@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -78,13 +79,28 @@ namespace AdminHotelApi.Controllers.Api
             string template = File.ReadAllText($"{AppContext.BaseDirectory}/Files/TemplateReservacion.html");
             template = template.Replace("[FechaEntrada]", string.Format("{0:MM/dd/yyyy}", reservacion.FechaEntrada));
             template = template.Replace("[FechaSalida]", string.Format("{0:MM/dd/yyyy}", reservacion.FechaSalida));
+            template = template.Replace("[Nombre]", reservacion.Cliente.Nombre);
+            template = template.Replace("[Email]", reservacion.Cliente.Email);
+            template = template.Replace("[Folio]", reservacion.Folio);
 
             StringBuilder iterator = new StringBuilder();
+            int contador = 1;
+            double total = 0;
             foreach (var item in reservacion.Resevaciones)
             {
-                iterator.Append($"<tr><td>{item.TipoHabitacion.Nombre + item.Personas}</td></tr>");
+                iterator.Append(
+                    $"<tr>" +
+                    $"<td class='no'>{contador++}</td>" +
+                    $"<td class='desc'><h3>{item.TipoHabitacion.Nombre}</h3>{item.TipoHabitacion.Descripcion}</td>" +
+                    $"<td class='unit'>{item.Personas}</td>" +
+                    $"<td class='qty'>{item.Precio.ToString("C2", CultureInfo.CurrentCulture)}</td>" +
+                    $"<td class='total'>{item.Precio.ToString("C2", CultureInfo.CurrentCulture)}</td>" +
+                    $"</tr>");
+
+                total += item.Precio;
             }
             template = template.Replace("[Reservaciones]", iterator.ToString());
+            template = template.Replace("[Total]", total.ToString("C2", CultureInfo.CurrentCulture));
             return Utilerias.HtmlToPdf(template);
         }
 
@@ -236,7 +252,8 @@ namespace AdminHotelApi.Controllers.Api
                     Personas = reservacionDetalle.Personas,
                     Precio = reservacionDetalle.Precio,
                     Activo = true,
-                    FechaAlta = DateTime.Now
+                    FechaAlta = DateTime.Now,
+                    Desayuno = reservacionDetalle.Desayuno
                 });
                 db.SaveChanges();
             }

@@ -1,32 +1,269 @@
-﻿<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title></title>
+    <meta charset="utf-8">
+    <title>Example 2</title>
+    <style>
+        @font-face {
+            font-family: SourceSansPro;
+            src: url(SourceSansPro-Regular.ttf);
+        }
+
+        .clearfix:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        a {
+            color: #0087C3;
+            text-decoration: none;
+        }
+
+        body {
+            position: relative;
+            width: 21cm;
+            height: 29.7cm;
+            margin: 0 auto;
+            color: #555555;
+            background: #FFFFFF;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-family: Arial;
+        }
+
+        header {
+            padding: 10px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #AAAAAA;
+        }
+
+        #logo {
+            float: left;
+            margin-top: 8px;
+        }
+
+            #logo img {
+                height: 70px;
+            }
+
+        #company {
+            float: right;
+            text-align: right;
+        }
+
+
+        #details {
+            margin-bottom: 50px;
+        }
+
+        #client {
+            padding-left: 6px;
+            border-left: 6px solid #0087C3;
+            float: left;
+        }
+
+            #client .to {
+                color: #777777;
+            }
+
+        h2.name {
+            font-size: 1.4em;
+            font-weight: normal;
+            margin: 0;
+        }
+
+        #invoice {
+            float: right;
+            text-align: right;
+        }
+
+            #invoice h1 {
+                color: #0087C3;
+                font-size: 2.4em;
+                line-height: 1em;
+                font-weight: normal;
+                margin: 0 0 10px 0;
+            }
+
+            #invoice .date {
+                font-size: 1.1em;
+                color: #777777;
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin-bottom: 20px;
+        }
+
+            table th,
+            table td {
+                padding: 20px;
+                background: #EEEEEE;
+                text-align: center;
+                border-bottom: 1px solid #FFFFFF;
+            }
+
+            table th {
+                white-space: nowrap;
+                font-weight: normal;
+            }
+
+            table td {
+                text-align: right;
+            }
+
+                table td h3 {
+                    color: #57B223;
+                    font-size: 1.2em;
+                    font-weight: normal;
+                    margin: 0 0 0.2em 0;
+                }
+
+            table .no {
+                color: #FFFFFF;
+                font-size: 1.6em;
+                background: #57B223;
+            }
+
+            table .desc {
+                text-align: left;
+            }
+
+            table .unit {
+                background: #DDDDDD;
+            }
+
+            table .qty {
+            }
+
+            table .total {
+                background: #57B223;
+                color: #FFFFFF;
+            }
+
+            table td.unit,
+            table td.qty,
+            table td.total {
+                font-size: 1.2em;
+            }
+
+            table tbody tr:last-child td {
+                border: none;
+            }
+
+            table tfoot td {
+                padding: 10px 20px;
+                background: #FFFFFF;
+                border-bottom: none;
+                font-size: 1.2em;
+                white-space: nowrap;
+                border-top: 1px solid #AAAAAA;
+            }
+
+            table tfoot tr:first-child td {
+                border-top: none;
+            }
+
+            table tfoot tr:last-child td {
+                color: #57B223;
+                font-size: 1.4em;
+                border-top: 1px solid #57B223;
+            }
+
+            table tfoot tr td:first-child {
+                border: none;
+            }
+
+        #thanks {
+            font-size: 2em;
+            margin-bottom: 50px;
+        }
+
+        #notices {
+            padding-left: 6px;
+            border-left: 6px solid #0087C3;
+        }
+
+            #notices .notice {
+                font-size: 1.2em;
+            }
+
+        footer {
+            color: #777777;
+            width: 100%;
+            height: 30px;
+            position: absolute;
+            bottom: 0;
+            border-top: 1px solid #AAAAAA;
+            padding: 8px 0;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <table width="900">
-        <tr>
-            <td width="450"></td>
-            <td width="450">
-                <table>
-                    <tr>
-                        <td>Fecha de entrada:</td>
-                        <td>[FechaEntrada]</td>
-                    </tr>
-                    <tr>
-                        <td>Fecha de salida:</td>
-                        <td>[FechaSalida]</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-    <table width="900">
-        <tr>
-            <td>Detalle de reservación</td>
-        </tr>
-        [Reservaciones]
-    </table>
+    <header class="clearfix">
+        <div id="logo">
+            <img src='data:image/png;base64,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' />
+        </div>
+        <div id="company">
+            <h2 class="name">HOTEL HAWAII</h2>
+            <div>Av. Insurgentes 458 y Aquiles Serdán 331. Col. Centro. Veracruz, México.</div>
+            <div>939389389</div>
+            <div><a href="mailto:company@example.com">hawaii.yekkan@gmail.com</a></div>
+        </div>
+    </header>
+    <main>
+        <div id="details" class="clearfix">
+            <div id="client">
+                <div class="to">Reservado a:</div>
+                <h2 class="name">[Nombre]</h2>
+                <div class="email"><a href="mailto:john@example.com">[Email]</a></div>
+            </div>
+            <div id="invoice">
+                <h1>[Folio]</h1>
+                <div class="date">Fecha de entrada: [FechaEntrada]</div>
+                <div class="date">Fecha de salida: [FechaSalida]</div>
+            </div>
+        </div>
+        <table border="0" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th class="no">#</th>
+                    <th class="desc">DESCRIPCION</th>
+                    <th class="unit">PERSONAS</th>
+                    <th class="qty">SUBTOTAL</th>
+                    <th class="total">TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                [Reservaciones]
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">SUBTOTAL</td>
+                    <td>[Subtotal]</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">IVA 16%</td>
+                    <td>[Iva]</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">GRAN TOTAL</td>
+                    <td>[Total]</td>
+                </tr>
+            </tfoot>
+        </table>
+        <div id="thanks">Gracias!</div>
+        <div id="notices">
+            <div>Nota:</div>
+            <div class="notice">Recuerda que tienes 5 dias para cancelar.</div>
+        </div>
+    </main>
 </body>
 </html>
