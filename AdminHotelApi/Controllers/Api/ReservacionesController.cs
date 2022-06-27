@@ -100,7 +100,9 @@ namespace AdminHotelApi.Controllers.Api
                 total += item.Precio;
             }
             template = template.Replace("[Reservaciones]", iterator.ToString());
-            template = template.Replace("[Total]", total.ToString("C2", CultureInfo.CurrentCulture));
+            template = template.Replace("[Subtotal]", total.ToString("C2", CultureInfo.CurrentCulture));
+            template = template.Replace("[Iva]", (total * 0.16).ToString("C2", CultureInfo.CurrentCulture));
+            template = template.Replace("[Total]", (total * 1.16).ToString("C2", CultureInfo.CurrentCulture));
             return Utilerias.HtmlToPdf(template);
         }
 
