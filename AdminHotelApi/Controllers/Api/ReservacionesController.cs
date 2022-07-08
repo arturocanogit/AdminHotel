@@ -135,6 +135,7 @@ namespace AdminHotelApi.Controllers.Api
             resultado.Folio = reservacion.Folio;
             resultado.FechaEntrada = reservacion.FechaEntrada;
             resultado.FechaSalida = reservacion.FechaSalida;
+            resultado.FechaAlta = reservacion.FechaAlta;
 
             resultado.Cliente = Utilerias.Mapeador<ClienteDto, Cliente>(cliente);
 
