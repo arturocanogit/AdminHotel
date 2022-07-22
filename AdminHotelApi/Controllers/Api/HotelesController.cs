@@ -56,7 +56,7 @@ namespace AdminHotelApi.Controllers.Api
             {
                 return BadRequest();
             }
-
+            hotel.FechaUpdate = DateTime.Now;
             db.Entry(hotel).State = EntityState.Modified;
 
             try
@@ -82,7 +82,7 @@ namespace AdminHotelApi.Controllers.Api
         }
 
         // POST: api/Hoteles
-        [ResponseType(typeof(Hotel))]
+        [ResponseType(typeof(ResultadoDto<Hotel>))]
         public IHttpActionResult PostHotel(Hotel hotel)
         {
             if (!ModelState.IsValid)
@@ -101,7 +101,7 @@ namespace AdminHotelApi.Controllers.Api
         }
 
         // DELETE: api/Hoteles/5
-        [ResponseType(typeof(Hotel))]
+        [ResponseType(typeof(ResultadoDto))]
         public IHttpActionResult DeleteHotel(int id)
         {
             Hotel hotel = db.Hoteles.Find(id);
@@ -113,7 +113,10 @@ namespace AdminHotelApi.Controllers.Api
             db.Hoteles.Remove(hotel);
             db.SaveChanges();
 
-            return Ok(hotel);
+            return Ok(new ResultadoDto 
+            {
+                Mensaje = "El hotel se elimino correctamente."
+            });
         }
 
         protected override void Dispose(bool disposing)
