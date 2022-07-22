@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using AdminHotelApi.Data;
 using AdminHotelApi.Models;
+using AdminHotelApi.Models.Dtos;
 
 namespace AdminHotelApi.Controllers.Api
 {
@@ -18,13 +19,17 @@ namespace AdminHotelApi.Controllers.Api
         private AdminHotelApiContext db = new AdminHotelApiContext();
 
         // GET: api/Hoteles
+        [ResponseType(typeof(ResultadoDto<IEnumerable<Hotel>>))]
         public IHttpActionResult GetHoteles()
         {
-            return Ok(db.Hoteles.ToList());
+            return Ok(new ResultadoDto<IEnumerable<Hotel>>
+            {
+                Datos = db.Hoteles.ToList()
+            });
         }
 
         // GET: api/Hoteles/5
-        [ResponseType(typeof(Hotel))]
+        [ResponseType(typeof(ResultadoDto<Hotel>))]
         public IHttpActionResult GetHotel(int id)
         {
             Hotel hotel = db.Hoteles.Find(id);
@@ -32,8 +37,10 @@ namespace AdminHotelApi.Controllers.Api
             {
                 return NotFound();
             }
-
-            return Ok(hotel);
+            return Ok(new ResultadoDto<Hotel>
+            {
+                Datos = hotel
+            });
         }
 
         // PUT: api/Hoteles/5
@@ -68,7 +75,10 @@ namespace AdminHotelApi.Controllers.Api
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(new ResultadoDto
+            {
+                Mensaje = "El hotel se actualizó correctamente."
+            });
         }
 
         // POST: api/Hoteles
@@ -80,10 +90,14 @@ namespace AdminHotelApi.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            db.Hoteles.Add(hotel);
+            hotel = db.Hoteles.Add(hotel);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = hotel.HotelId }, hotel);
+            return Created(string.Empty, new ResultadoDto<Hotel>
+            {
+                Mensaje = "El hotel se guardó correctamente.",
+                Datos = hotel
+            });
         }
 
         // DELETE: api/Hoteles/5
