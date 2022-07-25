@@ -217,6 +217,7 @@
     <Compile Include="Models\Dtos\ArchivoDto.cs" />
     <Compile Include="Models\Dtos\ClienteDto.cs" />
     <Compile Include="Models\Dtos\DisponibilidadDto.cs" />
+    <Compile Include="Models\Dtos\HotelDto.cs" />
     <Compile Include="Models\Dtos\ReservacionDto.cs" />
     <Compile Include="Models\Dtos\ReservacionDetalleDto.cs" />
     <Compile Include="Models\Dtos\ReservacionPdfDto.cs" />

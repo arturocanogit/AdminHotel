@@ -11,6 +11,7 @@ using System.Web.Http.Description;
 using AdminHotelApi.Data;
 using AdminHotelApi.Models;
 using AdminHotelApi.Models.Dtos;
+using Global;
 
 namespace AdminHotelApi.Controllers.Api
 {
@@ -19,17 +20,19 @@ namespace AdminHotelApi.Controllers.Api
         private AdminHotelApiContext db = new AdminHotelApiContext();
 
         // GET: api/Hoteles
-        [ResponseType(typeof(ResultadoDto<IEnumerable<Hotel>>))]
+        [ResponseType(typeof(ResultadoDto<IEnumerable<HotelDto>>))]
         public IHttpActionResult GetHoteles()
         {
-            return Ok(new ResultadoDto<IEnumerable<Hotel>>
+            var hoteles = db.Hoteles.Where(x => x.Activo).ToList();
+            return Ok(new ResultadoDto<IEnumerable<HotelDto>>
             {
-                Datos = db.Hoteles.ToList()
+                Datos = hoteles.Select(x => Utilerias
+                .Mapeador<HotelDto, Hotel>(x))
             });
         }
 
         // GET: api/Hoteles/5
-        [ResponseType(typeof(ResultadoDto<Hotel>))]
+        [ResponseType(typeof(ResultadoDto<HotelDto>))]
         public IHttpActionResult GetHotel(int id)
         {
             Hotel hotel = db.Hoteles.Find(id);
@@ -37,43 +40,28 @@ namespace AdminHotelApi.Controllers.Api
             {
                 return NotFound();
             }
-            return Ok(new ResultadoDto<Hotel>
+            return Ok(new ResultadoDto<HotelDto>
             {
-                Datos = hotel
+                Datos = Utilerias.Mapeador<HotelDto, Hotel>(hotel)
             });
         }
 
         // PUT: api/Hoteles/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutHotel(int id, Hotel hotel)
+        public IHttpActionResult PutHotel(int id, HotelDto hotel)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             if (id != hotel.HotelId)
             {
                 return BadRequest();
             }
-            hotel.FechaUpdate = DateTime.Now;
-            db.Entry(hotel).State = EntityState.Modified;
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!HotelExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            Hotel currentHotel = db.Hoteles.Find(id);
+
+            currentHotel.Nombre = hotel.Nombre;
+            currentHotel.FechaUpdate = DateTime.Now;
+
+            db.Entry(currentHotel).State = EntityState.Modified;
+            db.SaveChanges();
 
             return Ok(new ResultadoDto
             {
@@ -82,21 +70,16 @@ namespace AdminHotelApi.Controllers.Api
         }
 
         // POST: api/Hoteles
-        [ResponseType(typeof(ResultadoDto<Hotel>))]
-        public IHttpActionResult PostHotel(Hotel hotel)
+        [ResponseType(typeof(ResultadoDto<HotelDto>))]
+        public IHttpActionResult PostHotel(HotelDto hotel)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            hotel = db.Hoteles.Add(hotel);
+            var nuevoHotel = db.Hoteles.Add(Utilerias.Mapeador<Hotel, HotelDto>(hotel));
             db.SaveChanges();
 
-            return Created(string.Empty, new ResultadoDto<Hotel>
+            return Created(string.Empty, new ResultadoDto<HotelDto>
             {
                 Mensaje = "El hotel se guardó correctamente.",
-                Datos = hotel
+                Datos = Utilerias.Mapeador<HotelDto, Hotel>(nuevoHotel)
             });
         }
 
@@ -110,7 +93,10 @@ namespace AdminHotelApi.Controllers.Api
                 return NotFound();
             }
 
-            db.Hoteles.Remove(hotel);
+            hotel.FechaUpdate = DateTime.Now;
+            hotel.Activo = false;
+
+            db.Entry(hotel).State = EntityState.Modified;
             db.SaveChanges();
 
             return Ok(new ResultadoDto 
