@@ -10,6 +10,8 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using AdminHotelApi.Data;
 using AdminHotelApi.Models;
+using AdminHotelApi.Models.Dtos;
+using Global;
 
 namespace AdminHotelApi.Controllers.Api
 {
@@ -18,103 +20,98 @@ namespace AdminHotelApi.Controllers.Api
         private AdminHotelApiContext db = new AdminHotelApiContext();
 
         // GET: api/Habitaciones
-        public IQueryable<Habitacion> GetHabitaciones()
+        [ResponseType(typeof(ResultadoDto<IEnumerable<HabitacionDto>>))]
+        public IHttpActionResult GetHabitaciones()
         {
-            return db.Habitaciones;
+            var hoteles = db.Habitaciones.Where(x => x.HotelId == Constantes.HotelId && x.Activo).ToList();
+            return Ok(new ResultadoDto<IEnumerable<HabitacionDto>>
+            {
+                Datos = hoteles.Select(x => Utilerias
+                .Mapeador<HabitacionDto, Habitacion>(x))
+            });
         }
 
         // GET: api/Habitaciones/5
-        [ResponseType(typeof(Habitacion))]
+        [ResponseType(typeof(HabitacionDto))]
         public IHttpActionResult GetHabitacion(int id)
         {
-            Habitacion habitacion = db.Habitaciones.Find(id);
-            if (habitacion == null)
+            Habitacion tipoHabitacion = db.Habitaciones.Find(Constantes.HotelId, id);
+            if (tipoHabitacion == null)
             {
                 return NotFound();
             }
-
-            return Ok(habitacion);
+            return Ok(new ResultadoDto<HabitacionDto>
+            {
+                Datos = Utilerias.Mapeador<HabitacionDto, Habitacion>(tipoHabitacion)
+            });
         }
 
         // PUT: api/Habitaciones/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutHabitacion(int id, Habitacion habitacion)
+        [ResponseType(typeof(ResultadoDto))]
+        public IHttpActionResult PutHabitacion(int id, HabitacionDto tipoHabitacion)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != habitacion.HotelId)
+            if (id != tipoHabitacion.HabitacionId)
             {
                 return BadRequest();
             }
 
-            db.Entry(habitacion).State = EntityState.Modified;
+            Habitacion currentHabitacion = db.Habitaciones.Find(Constantes.HotelId, id);
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!HabitacionExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            currentHabitacion.TipoHabitacionId = tipoHabitacion.TipoHabitacionId;
+            currentHabitacion.NumeroHabitacion = tipoHabitacion.NumeroHabitacion;
+            currentHabitacion.Capacidad = tipoHabitacion.Capacidad;
+            currentHabitacion.FechaUpdate = DateTime.Now;
 
-            return StatusCode(HttpStatusCode.NoContent);
+            db.Entry(currentHabitacion).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return Ok(new ResultadoDto
+            {
+                Mensaje = "La habitación se actualizó correctamente."
+            });
         }
 
         // POST: api/Habitaciones
-        [ResponseType(typeof(Habitacion))]
-        public IHttpActionResult PostHabitacion(Habitacion habitacion)
+        [ResponseType(typeof(ResultadoDto<HabitacionDto>))]
+        public IHttpActionResult PostHabitacion(HabitacionDto tipoHabitacion)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            int tipoHabitacionId = (db.Habitaciones
+                    .Where(x => x.HotelId == Constantes.HotelId)
+                    .Max(x => (int?)x.HabitacionId) ?? 0) + 1;
 
-            db.Habitaciones.Add(habitacion);
+            tipoHabitacion.HabitacionId = tipoHabitacionId;
+            tipoHabitacion.HotelId = Constantes.HotelId;
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (HabitacionExists(habitacion.HotelId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            var nuevoHabitacion = db.Habitaciones.Add(Utilerias.Mapeador<Habitacion, HabitacionDto>(tipoHabitacion));
+            db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = habitacion.HotelId }, habitacion);
+            return Created(string.Empty, new ResultadoDto<HabitacionDto>
+            {
+                Mensaje = "La habitación se guardó correctamente.",
+                Datos = Utilerias.Mapeador<HabitacionDto, Habitacion>(nuevoHabitacion)
+            });
         }
 
         // DELETE: api/Habitaciones/5
-        [ResponseType(typeof(Habitacion))]
+        [ResponseType(typeof(ResultadoDto))]
         public IHttpActionResult DeleteHabitacion(int id)
         {
-            Habitacion habitacion = db.Habitaciones.Find(id);
-            if (habitacion == null)
+            Habitacion tipoHabitacion = db.Habitaciones.Find(Constantes.HotelId, id);
+            if (tipoHabitacion == null)
             {
                 return NotFound();
             }
 
-            db.Habitaciones.Remove(habitacion);
+            tipoHabitacion.FechaUpdate = DateTime.Now;
+            tipoHabitacion.Activo = false;
+
+            db.Entry(tipoHabitacion).State = EntityState.Modified;
             db.SaveChanges();
 
-            return Ok(habitacion);
+            return Ok(new ResultadoDto
+            {
+                Mensaje = "La habitación se elimino correctamente."
+            });
         }
 
         protected override void Dispose(bool disposing)

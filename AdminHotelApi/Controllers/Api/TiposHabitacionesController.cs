@@ -11,6 +11,7 @@ using System.Web.Http.Description;
 using AdminHotelApi.Data;
 using AdminHotelApi.Models;
 using AdminHotelApi.Models.Dtos;
+using AdminHotelApi.Models.Entities;
 using Global;
 
 namespace AdminHotelApi.Controllers.Api
@@ -47,7 +48,7 @@ namespace AdminHotelApi.Controllers.Api
         }
 
         // PUT: api/TiposHabitaciones/5
-        [ResponseType(typeof(void))]
+        [ResponseType(typeof(ResultadoDto))]
         public IHttpActionResult PutTipoHabitacion(int id, TipoHabitacionDto tipoHabitacion)
         {
             if (id != tipoHabitacion.TipoHabitacionId)
@@ -71,7 +72,7 @@ namespace AdminHotelApi.Controllers.Api
         }
 
         // POST: api/TiposHabitaciones
-        [ResponseType(typeof(TipoHabitacionDto))]
+        [ResponseType(typeof(ResultadoDto<TipoHabitacionDto>))]
         public IHttpActionResult PostTipoHabitacion(TipoHabitacionDto tipoHabitacion)
         {
             int tipoHabitacionId = (db.TiposHabitaciones
@@ -80,10 +81,11 @@ namespace AdminHotelApi.Controllers.Api
 
             tipoHabitacion.TipoHabitacionId = tipoHabitacionId;
             tipoHabitacion.HotelId = Constantes.HotelId;
-            
+
             var nuevoTipoHabitacion = db.TiposHabitaciones.Add(Utilerias.Mapeador<TipoHabitacion, TipoHabitacionDto>(tipoHabitacion));
             db.SaveChanges();
 
+            GuardarTipoHabitacionFoto(tipoHabitacion);
             return Created(string.Empty, new ResultadoDto<TipoHabitacionDto>
             {
                 Mensaje = "El tipo de habitación se guardó correctamente.",
@@ -91,8 +93,24 @@ namespace AdminHotelApi.Controllers.Api
             });
         }
 
+        private void GuardarTipoHabitacionFoto(TipoHabitacionDto tipoHabitacion)
+        {
+            int tipoHabitacionFotoId = (db.TiposHabitacionesFotos
+                              .Where(x => x.HotelId == tipoHabitacion.HotelId && x.TipoHabitacionId == tipoHabitacion.TipoHabitacionId)
+                              .Max(x => (int?)x.TipoHabitacionId) ?? 0) + 1;
+
+            TipoHabitacionFoto tipoHabitacionFoto = Utilerias.Mapeador<TipoHabitacionFoto, ArchivoDto>(tipoHabitacion.Foto);
+
+            tipoHabitacionFoto.TipoHabitacionFotoId = tipoHabitacionFotoId;
+            tipoHabitacionFoto.HotelId = tipoHabitacion.HotelId;
+            tipoHabitacionFoto.TipoHabitacionId = tipoHabitacion.TipoHabitacionId;
+
+            db.TiposHabitacionesFotos.Add(tipoHabitacionFoto);
+            db.SaveChanges();
+        }
+
         // DELETE: api/TiposHabitaciones/5
-        [ResponseType(typeof(TipoHabitacion))]
+        [ResponseType(typeof(ResultadoDto))]
         public IHttpActionResult DeleteTipoHabitacion(int id)
         {
             TipoHabitacion tipoHabitacion = db.TiposHabitaciones.Find(Constantes.HotelId, id);

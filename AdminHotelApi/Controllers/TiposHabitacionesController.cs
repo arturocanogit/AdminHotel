@@ -52,12 +52,12 @@ namespace AdminHotelApi.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "HotelId,TipoHabitacionId,Nombre,Descripcion,Activo,FechaAlta,FechaUpdate,UploadFoto")] TipoHabitacionDto tipoHabitacionDto)
+        public ActionResult Create(TipoHabitacionDto tipoHabitacionDto)
         {
             TipoHabitacion tipoHabitacion =
                     Utilerias.Mapeador<TipoHabitacion, TipoHabitacionDto>(tipoHabitacionDto);
 
-            var tipoHabitacionFoto = Utilerias.Mapeador<TipoHabitacionFoto, ArchivoDto>(
+            TipoHabitacionFoto tipoHabitacionFoto = Utilerias.Mapeador<TipoHabitacionFoto, ArchivoDto>(
                 Project.PostedFileToDto(tipoHabitacionDto.UploadFoto));
 
             if (ModelState.IsValid)

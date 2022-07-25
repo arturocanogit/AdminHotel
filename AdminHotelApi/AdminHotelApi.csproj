@@ -156,6 +156,7 @@
     <Compile Include="Controllers\Api\HabitacionesController.cs" />
     <Compile Include="Controllers\Api\HotelesController.cs" />
     <Compile Include="Controllers\Api\ReservacionesController.cs" />
+    <Compile Include="Controllers\Api\TarifasController.cs" />
     <Compile Include="Controllers\Api\TiposHabitacionesController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\HabitacionesController.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="Models\Dtos\ArchivoDto.cs" />
     <Compile Include="Models\Dtos\ClienteDto.cs" />
     <Compile Include="Models\Dtos\DisponibilidadDto.cs" />
+    <Compile Include="Models\Dtos\HabitacionDto.cs" />
     <Compile Include="Models\Dtos\HotelDto.cs" />
     <Compile Include="Models\Dtos\ReservacionDto.cs" />
     <Compile Include="Models\Dtos\ReservacionDetalleDto.cs" />
