@@ -157,6 +157,7 @@
     <Compile Include="Controllers\Api\HotelesController.cs" />
     <Compile Include="Controllers\Api\ReservacionesController.cs" />
     <Compile Include="Controllers\Api\TarifasController.cs" />
+    <Compile Include="Controllers\Api\TarifasFestivosController.cs" />
     <Compile Include="Controllers\Api\TiposHabitacionesController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\HabitacionesController.cs" />
@@ -172,45 +173,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202205100428037_InitialCreate.cs" />
-    <Compile Include="Migrations\202205100428037_InitialCreate.Designer.cs">
-      <DependentUpon>202205100428037_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202205130359137_M12052022.cs" />
-    <Compile Include="Migrations\202205130359137_M12052022.Designer.cs">
-      <DependentUpon>202205130359137_M12052022.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202205130510567_M13052022.cs" />
-    <Compile Include="Migrations\202205130510567_M13052022.Designer.cs">
-      <DependentUpon>202205130510567_M13052022.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202205142324109_M14052022.cs" />
-    <Compile Include="Migrations\202205142324109_M14052022.Designer.cs">
-      <DependentUpon>202205142324109_M14052022.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202205142343418_M140520221.cs" />
-    <Compile Include="Migrations\202205142343418_M140520221.Designer.cs">
-      <DependentUpon>202205142343418_M140520221.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202205292103306_Migration_29052022.cs" />
-    <Compile Include="Migrations\202205292103306_Migration_29052022.Designer.cs">
-      <DependentUpon>202205292103306_Migration_29052022.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202205292221017_Migration_29052022_1.cs" />
-    <Compile Include="Migrations\202205292221017_Migration_29052022_1.Designer.cs">
-      <DependentUpon>202205292221017_Migration_29052022_1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202205300451482_M29052022_1.cs" />
-    <Compile Include="Migrations\202205300451482_M29052022_1.Designer.cs">
-      <DependentUpon>202205300451482_M29052022_1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202206040417125_M03062022.cs" />
-    <Compile Include="Migrations\202206040417125_M03062022.Designer.cs">
-      <DependentUpon>202206040417125_M03062022.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202206220348458_M21062022.cs" />
-    <Compile Include="Migrations\202206220348458_M21062022.designer.cs">
-      <DependentUpon>202206220348458_M21062022.cs</DependentUpon>
+    <Compile Include="Migrations\202207310201286_M001.cs" />
+    <Compile Include="Migrations\202207310201286_M001.designer.cs">
+      <DependentUpon>202207310201286_M001.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Constantes.cs" />
@@ -225,6 +190,7 @@
     <Compile Include="Models\Dtos\ReservacionPdfDto.cs" />
     <Compile Include="Models\Dtos\ResultadoDto.cs" />
     <Compile Include="Models\Dtos\TarifaDto.cs" />
+    <Compile Include="Models\Dtos\TarifaFestivoDto.cs" />
     <Compile Include="Models\Dtos\TipoHabitacionDto.cs" />
     <Compile Include="Models\Entities\Cliente.cs" />
     <Compile Include="Models\Entities\Entity.cs" />
@@ -236,6 +202,7 @@
     <Compile Include="Models\Entities\Tarifa.cs" />
     <Compile Include="Models\Entities\TipoHabitacion.cs" />
     <Compile Include="Models\Entities\TipoHabitacionFoto.cs" />
+    <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Global.cs" />
     <Compile Include="Models\Interfaces\Archivo.cs" />
     <Compile Include="Models\Project.cs" />
@@ -313,35 +280,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202205100428037_InitialCreate.resx">
-      <DependentUpon>202205100428037_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202205130359137_M12052022.resx">
-      <DependentUpon>202205130359137_M12052022.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202205130510567_M13052022.resx">
-      <DependentUpon>202205130510567_M13052022.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202205142324109_M14052022.resx">
-      <DependentUpon>202205142324109_M14052022.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202205142343418_M140520221.resx">
-      <DependentUpon>202205142343418_M140520221.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202205292103306_Migration_29052022.resx">
-      <DependentUpon>202205292103306_Migration_29052022.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202205292221017_Migration_29052022_1.resx">
-      <DependentUpon>202205292221017_Migration_29052022_1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202205300451482_M29052022_1.resx">
-      <DependentUpon>202205300451482_M29052022_1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202206040417125_M03062022.resx">
-      <DependentUpon>202206040417125_M03062022.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202206220348458_M21062022.resx">
-      <DependentUpon>202206220348458_M21062022.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202207310201286_M001.resx">
+      <DependentUpon>202207310201286_M001.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

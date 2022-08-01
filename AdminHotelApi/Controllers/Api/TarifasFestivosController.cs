@@ -15,19 +15,19 @@ using Global;
 
 namespace AdminHotelApi.Controllers.Api
 {
-    public class TarifasController : ApiController
+    public class TarifasFestivosController : ApiController
     {
         private AdminHotelApiContext db = new AdminHotelApiContext();
 
-        // GET: api/Tarifas
-        [ResponseType(typeof(ResultadoDto<IEnumerable<TarifaDto>>))]
-        public IHttpActionResult GetTarifas()
+        // GET: api/TarifasFestivos
+        [ResponseType(typeof(ResultadoDto<IEnumerable<TarifaFestivoDto>>))]
+        public IHttpActionResult GetTarifasFestivos()
         {
-            List<Tarifa> tarifas = db.Tarifas
+            List<TarifaFestivo> tarifas = db.TarifasFestivos
                 .Where(x => x.HotelId == Constantes.HotelId && x.Activo).ToList();
 
-            List<TarifaDto> tarifasDto = tarifas
-                .Select(x => Utilerias.Mapeador<TarifaDto, Tarifa>(x))
+            List<TarifaFestivoDto> tarifasDto = tarifas
+                .Select(x => Utilerias.Mapeador<TarifaFestivoDto, TarifaFestivo>(x))
                 .ToList();
 
             HotelDto hotel = Utilerias.Mapeador<HotelDto, Hotel>(db.Hoteles.First(x => x.HotelId == Constantes.HotelId));
@@ -38,17 +38,17 @@ namespace AdminHotelApi.Controllers.Api
                     tarifas.First(y => y.TipoHabitacionId == x.TipoHabitacionId).TipoHabitacion); 
             });
 
-            return Ok(new ResultadoDto<IEnumerable<TarifaDto>>
+            return Ok(new ResultadoDto<IEnumerable<TarifaFestivoDto>>
             {
                 Datos = tarifasDto
             });
         }
 
-        // GET: api/Tarifas/5
-        [ResponseType(typeof(TarifaDto))]
+        // GET: api/TarifasFestivos/5
+        [ResponseType(typeof(TarifaFestivoDto))]
         public IHttpActionResult GetTarifa(int id)
         {
-            Tarifa tarifa = db.Tarifas
+            TarifaFestivo tarifa = db.TarifasFestivos
                 .FirstOrDefault(x => x.HotelId == Constantes.HotelId && x.Activo && x.TarifaId == id);
 
             if (tarifa == null)
@@ -56,27 +56,27 @@ namespace AdminHotelApi.Controllers.Api
                 return NotFound();
             }
 
-            TarifaDto tarifaDto = Utilerias.Mapeador<TarifaDto, Tarifa>(tarifa);
+            TarifaFestivoDto tarifaDto = Utilerias.Mapeador<TarifaFestivoDto, TarifaFestivo>(tarifa);
 
             tarifaDto.Hotel = Utilerias.Mapeador<HotelDto, Hotel>(db.Hoteles.First(x => x.HotelId == Constantes.HotelId));
             tarifaDto.TipoHabitacion = Utilerias.Mapeador<TipoHabitacionDto, TipoHabitacion>(tarifa.TipoHabitacion);
 
-            return Ok(new ResultadoDto<TarifaDto>
+            return Ok(new ResultadoDto<TarifaFestivoDto>
             {
                 Datos = tarifaDto
             });
         }
 
-        // PUT: api/Tarifas/5
+        // PUT: api/TarifasFestivos/5
         [ResponseType(typeof(ResultadoDto))]
-        public IHttpActionResult PutTarifa(int id, TarifaDto cliente)
+        public IHttpActionResult PutTarifa(int id, TarifaFestivoDto cliente)
         {
             if (id != cliente.TarifaId)
             {
                 return BadRequest();
             }
 
-            Tarifa currentTarifa = db.Tarifas.Find(Constantes.HotelId, id);
+            TarifaFestivo currentTarifa = db.TarifasFestivos.Find(Constantes.HotelId, id);
 
             currentTarifa.Precio = cliente.Precio;
             currentTarifa.Personas = cliente.Personas;
@@ -91,32 +91,32 @@ namespace AdminHotelApi.Controllers.Api
             });
         }
 
-        // POST: api/Tarifas
-        [ResponseType(typeof(ResultadoDto<TarifaDto>))]
-        public IHttpActionResult PostTarifa(TarifaDto tarifa)
+        // POST: api/TarifasFestivos
+        [ResponseType(typeof(ResultadoDto<TarifaFestivoDto>))]
+        public IHttpActionResult PostTarifa(TarifaFestivoDto tarifa)
         {
-            int tarifaId = (db.Tarifas
+            int tarifaId = (db.TarifasFestivos
                     .Where(x => x.HotelId == Constantes.HotelId)
                     .Max(x => (int?)x.TarifaId) ?? 0) + 1;
 
             tarifa.TarifaId = tarifaId;
             tarifa.HotelId = Constantes.HotelId;
 
-            var nuevaTarifa = db.Tarifas.Add(Utilerias.Mapeador<Tarifa, TarifaDto>(tarifa));
+            var nuevaTarifa = db.TarifasFestivos.Add(Utilerias.Mapeador<TarifaFestivo, TarifaFestivoDto>(tarifa));
             db.SaveChanges();
 
-            return Created(string.Empty, new ResultadoDto<TarifaDto>
+            return Created(string.Empty, new ResultadoDto<TarifaFestivoDto>
             {
                 Mensaje = "La tarifa se guardó correctamente.",
-                Datos = Utilerias.Mapeador<TarifaDto, Tarifa>(nuevaTarifa)
+                Datos = Utilerias.Mapeador<TarifaFestivoDto, TarifaFestivo>(nuevaTarifa)
             });
         }
 
-        // DELETE: api/Tarifas/5
+        // DELETE: api/TarifasFestivos/5
         [ResponseType(typeof(ResultadoDto))]
         public IHttpActionResult DeleteTarifa(int id)
         {
-            Tarifa tarifa = db.Tarifas.Find(Constantes.HotelId, id);
+            TarifaFestivo tarifa = db.TarifasFestivos.Find(Constantes.HotelId, id);
             if (tarifa == null)
             {
                 return NotFound();
@@ -145,7 +145,7 @@ namespace AdminHotelApi.Controllers.Api
 
         private bool TarifaExists(int id)
         {
-            return db.Tarifas.Count(e => e.HotelId == id) > 0;
+            return db.TarifasFestivos.Count(e => e.HotelId == id) > 0;
         }
     }
 }

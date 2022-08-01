@@ -23,11 +23,27 @@ namespace AdminHotelApi.Controllers.Api
         [ResponseType(typeof(ResultadoDto<IEnumerable<HabitacionDto>>))]
         public IHttpActionResult GetHabitaciones()
         {
-            var hoteles = db.Habitaciones.Where(x => x.HotelId == Constantes.HotelId && x.Activo).ToList();
+            List<Habitacion> habitaciones = db.Habitaciones
+                .Where(x => x.HotelId == Constantes.HotelId && x.Activo).ToList();
+
+            List<HabitacionDto> habitacionesDto = new List<HabitacionDto>();
+
+            foreach (var habitacion in habitaciones.Select(x => Utilerias.Mapeador<HabitacionDto, Habitacion>(x)))
+            {
+                habitacion.Hotel = Utilerias
+                    .Mapeador<HotelDto, Hotel>(db.Hoteles
+                    .Where(x => x.HotelId == habitacion.HotelId).First());
+
+                habitacion.TipoHabitacion = Utilerias
+                   .Mapeador<TipoHabitacionDto, TipoHabitacion>(db.TiposHabitaciones
+                   .Where(x => x.HotelId == habitacion.HotelId && x.TipoHabitacionId == habitacion.TipoHabitacionId).First());
+
+                habitacionesDto.Add(habitacion);
+            }
+
             return Ok(new ResultadoDto<IEnumerable<HabitacionDto>>
             {
-                Datos = hoteles.Select(x => Utilerias
-                .Mapeador<HabitacionDto, Habitacion>(x))
+                Datos = habitacionesDto
             });
         }
 
@@ -35,14 +51,24 @@ namespace AdminHotelApi.Controllers.Api
         [ResponseType(typeof(HabitacionDto))]
         public IHttpActionResult GetHabitacion(int id)
         {
-            Habitacion tipoHabitacion = db.Habitaciones.Find(Constantes.HotelId, id);
-            if (tipoHabitacion == null)
+            TipoHabitacion habitacion = db.TiposHabitaciones.Find(Constantes.HotelId, id);
+            if (habitacion == null)
             {
                 return NotFound();
             }
+            HabitacionDto habitacionDto = Utilerias.Mapeador<HabitacionDto, TipoHabitacion>(habitacion);
+
+            habitacionDto.Hotel = Utilerias
+                    .Mapeador<HotelDto, Hotel>(db.Hoteles
+                    .Where(x => x.HotelId == habitacionDto.HotelId).First());
+
+            habitacionDto.TipoHabitacion = Utilerias
+                   .Mapeador<TipoHabitacionDto, TipoHabitacion>(db.TiposHabitaciones
+                   .Where(x => x.HotelId == habitacion.HotelId && x.TipoHabitacionId == habitacion.TipoHabitacionId).First());
+
             return Ok(new ResultadoDto<HabitacionDto>
             {
-                Datos = Utilerias.Mapeador<HabitacionDto, Habitacion>(tipoHabitacion)
+                Datos = habitacionDto
             });
         }
 

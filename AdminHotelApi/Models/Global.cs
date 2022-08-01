@@ -39,6 +39,7 @@ namespace Global
                 //Las propiedades virtuales no se mapean
                 if (property.PropertyType.IsPrimitive || 
                     property.PropertyType == typeof(string) ||
+                    property.PropertyType == typeof(byte[]) ||
                     property.PropertyType == typeof(DateTime))
                 {
                     var propertySource = typeSource.GetProperty(property.Name);

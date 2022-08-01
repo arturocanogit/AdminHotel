@@ -5,13 +5,14 @@ using System.Web;
 
 namespace AdminHotelApi.Models.Dtos
 {
-    public class HabitacionDto
+    public class TarifaFestivoDto
     {
         public int HotelId { get; set; }
-        public int HabitacionId { get; set; }
+        public int TarifaId { get; set; }
         public int TipoHabitacionId { get; set; }
-        public string NumeroHabitacion { get; set; }
-        public int Capacidad { get; set; }
+        public DateTime Fecha { get; set; }
+        public int Personas { get; set; }
+        public double Precio { get; set; }
         public HotelDto Hotel { get; set; }
         public TipoHabitacionDto TipoHabitacion { get; set; }
     }

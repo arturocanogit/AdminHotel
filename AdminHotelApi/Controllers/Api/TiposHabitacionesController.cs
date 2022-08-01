@@ -24,11 +24,23 @@ namespace AdminHotelApi.Controllers.Api
         [ResponseType(typeof(ResultadoDto<IEnumerable<TipoHabitacionDto>>))]
         public IHttpActionResult GetTiposHabitaciones()
         {
-            var hoteles = db.TiposHabitaciones.Where(x => x.HotelId == Constantes.HotelId && x.Activo).ToList();
+            List<TipoHabitacion> tiposHabitaciones = db.TiposHabitaciones
+                .Where(x => x.HotelId == Constantes.HotelId && x.Activo).ToList();
+
+            List<TipoHabitacionDto> tiposHabitacionesDto = new List<TipoHabitacionDto>();
+
+            foreach (var tipoHabitacion in tiposHabitaciones.Select(x => Utilerias.Mapeador<TipoHabitacionDto, TipoHabitacion>(x)))
+            {
+                tipoHabitacion.Hotel = Utilerias
+                    .Mapeador<HotelDto, Hotel>(db.Hoteles
+                    .Where(x => x.HotelId == tipoHabitacion.HotelId).First());
+
+                tiposHabitacionesDto.Add(tipoHabitacion);
+            }
+
             return Ok(new ResultadoDto<IEnumerable<TipoHabitacionDto>>
             {
-                Datos = hoteles.Select(x => Utilerias
-                .Mapeador<TipoHabitacionDto, TipoHabitacion>(x))
+                Datos = tiposHabitacionesDto
             });
         }
 
@@ -41,9 +53,14 @@ namespace AdminHotelApi.Controllers.Api
             {
                 return NotFound();
             }
+            TipoHabitacionDto tipoHabitacionDto = Utilerias.Mapeador<TipoHabitacionDto, TipoHabitacion>(tipoHabitacion);
+            tipoHabitacionDto.Hotel = Utilerias
+                    .Mapeador<HotelDto, Hotel>(db.Hoteles
+                    .Where(x => x.HotelId == tipoHabitacionDto.HotelId).First());
+
             return Ok(new ResultadoDto<TipoHabitacionDto>
             {
-                Datos = Utilerias.Mapeador<TipoHabitacionDto, TipoHabitacion>(tipoHabitacion)
+                Datos = tipoHabitacionDto
             });
         }
 
@@ -85,7 +102,7 @@ namespace AdminHotelApi.Controllers.Api
             var nuevoTipoHabitacion = db.TiposHabitaciones.Add(Utilerias.Mapeador<TipoHabitacion, TipoHabitacionDto>(tipoHabitacion));
             db.SaveChanges();
 
-            GuardarTipoHabitacionFoto(tipoHabitacion);
+            //GuardarTipoHabitacionFoto(tipoHabitacion);
             return Created(string.Empty, new ResultadoDto<TipoHabitacionDto>
             {
                 Mensaje = "El tipo de habitación se guardó correctamente.",

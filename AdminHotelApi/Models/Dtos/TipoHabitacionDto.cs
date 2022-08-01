@@ -14,5 +14,6 @@ namespace AdminHotelApi.Models.Dtos
         public string Descripcion { get; set; }
         public HttpPostedFileBase UploadFoto { get; set; }
         public ArchivoDto Foto { get; set; }
+        public HotelDto Hotel { get; set; }
     }
 }
