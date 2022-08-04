@@ -177,6 +177,18 @@
     <Compile Include="Migrations\202207310201286_M001.designer.cs">
       <DependentUpon>202207310201286_M001.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202208040305176_M002.cs" />
+    <Compile Include="Migrations\202208040305176_M002.designer.cs">
+      <DependentUpon>202208040305176_M002.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202208040314113_M003.cs" />
+    <Compile Include="Migrations\202208040314113_M003.designer.cs">
+      <DependentUpon>202208040314113_M003.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202208040331386_M004.cs" />
+    <Compile Include="Migrations\202208040331386_M004.designer.cs">
+      <DependentUpon>202208040331386_M004.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Constantes.cs" />
     <Compile Include="Models\CustomExceptionFilter.cs" />
@@ -282,6 +294,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202207310201286_M001.resx">
       <DependentUpon>202207310201286_M001.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208040305176_M002.resx">
+      <DependentUpon>202208040305176_M002.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208040314113_M003.resx">
+      <DependentUpon>202208040314113_M003.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208040331386_M004.resx">
+      <DependentUpon>202208040331386_M004.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

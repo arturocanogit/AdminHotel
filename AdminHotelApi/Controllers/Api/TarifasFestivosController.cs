@@ -77,6 +77,10 @@ namespace AdminHotelApi.Controllers.Api
             }
 
             TarifaFestivo currentTarifa = db.TarifasFestivos.Find(Constantes.HotelId, id);
+            if (currentTarifa.IsNull())
+            {
+                return NotFound();
+            }
 
             currentTarifa.Precio = cliente.Precio;
             currentTarifa.Personas = cliente.Personas;

@@ -35,6 +35,17 @@ namespace AdminHotelApi.Controllers.Api
                     .Mapeador<HotelDto, Hotel>(db.Hoteles
                     .Where(x => x.HotelId == tipoHabitacion.HotelId).First());
 
+                TipoHabitacionFoto foto = db.TiposHabitacionesFotos
+                    .Where(x => x.HotelId == tipoHabitacion.HotelId && x.TipoHabitacionId == tipoHabitacion.TipoHabitacionId).FirstOrDefault();
+
+                if (foto.IsNotNull())
+                {
+                    tipoHabitacion.Foto = new ArchivoDto
+                    {
+                        Nombre = foto.Nombre,
+                        Contenido = foto.Contenido
+                    };
+                }
                 tiposHabitacionesDto.Add(tipoHabitacion);
             }
 
@@ -102,7 +113,7 @@ namespace AdminHotelApi.Controllers.Api
             var nuevoTipoHabitacion = db.TiposHabitaciones.Add(Utilerias.Mapeador<TipoHabitacion, TipoHabitacionDto>(tipoHabitacion));
             db.SaveChanges();
 
-            //GuardarTipoHabitacionFoto(tipoHabitacion);
+            GuardarTipoHabitacionFoto(tipoHabitacion);
             return Created(string.Empty, new ResultadoDto<TipoHabitacionDto>
             {
                 Mensaje = "El tipo de habitación se guardó correctamente.",
@@ -113,7 +124,7 @@ namespace AdminHotelApi.Controllers.Api
         private void GuardarTipoHabitacionFoto(TipoHabitacionDto tipoHabitacion)
         {
             int tipoHabitacionFotoId = (db.TiposHabitacionesFotos
-                              .Where(x => x.HotelId == tipoHabitacion.HotelId && x.TipoHabitacionId == tipoHabitacion.TipoHabitacionId)
+                              .Where(x => x.HotelId == tipoHabitacion.HotelId)
                               .Max(x => (int?)x.TipoHabitacionId) ?? 0) + 1;
 
             TipoHabitacionFoto tipoHabitacionFoto = Utilerias.Mapeador<TipoHabitacionFoto, ArchivoDto>(tipoHabitacion.Foto);
