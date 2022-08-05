@@ -93,6 +93,9 @@ namespace AdminHotelApi.Controllers.Api
             db.Entry(currentTipoHabitacion).State = EntityState.Modified;
             db.SaveChanges();
 
+            tipoHabitacion.HotelId = currentTipoHabitacion.HotelId;
+            tipoHabitacion.TipoHabitacionId = currentTipoHabitacion.TipoHabitacionId;
+            ActualizarTipoHabitacionFoto(tipoHabitacion);
             return Ok(new ResultadoDto
             {
                 Mensaje = "El tipo de habitación se actualizó correctamente."
@@ -135,6 +138,22 @@ namespace AdminHotelApi.Controllers.Api
 
             db.TiposHabitacionesFotos.Add(tipoHabitacionFoto);
             db.SaveChanges();
+        }
+
+        private void ActualizarTipoHabitacionFoto(TipoHabitacionDto tipoHabitacion)
+        {
+            TipoHabitacionFoto foto = db.TiposHabitacionesFotos
+                    .Where(x => x.HotelId == tipoHabitacion.HotelId && x.TipoHabitacionId == tipoHabitacion.TipoHabitacionId).FirstOrDefault();
+
+            if (foto.IsNotNull())
+            {
+                foto.Nombre = tipoHabitacion.Foto.Nombre;
+                foto.Contenido = tipoHabitacion.Foto.Contenido;
+                foto.FechaUpdate = DateTime.Now;
+
+                db.Entry(foto).State = EntityState.Modified;
+                db.SaveChanges();
+            }
         }
 
         // DELETE: api/TiposHabitaciones/5

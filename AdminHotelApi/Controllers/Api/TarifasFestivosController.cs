@@ -69,9 +69,9 @@ namespace AdminHotelApi.Controllers.Api
 
         // PUT: api/TarifasFestivos/5
         [ResponseType(typeof(ResultadoDto))]
-        public IHttpActionResult PutTarifa(int id, TarifaFestivoDto cliente)
+        public IHttpActionResult PutTarifa(int id, TarifaFestivoDto tarifa)
         {
-            if (id != cliente.TarifaId)
+            if (id != tarifa.TarifaId)
             {
                 return BadRequest();
             }
@@ -82,8 +82,10 @@ namespace AdminHotelApi.Controllers.Api
                 return NotFound();
             }
 
-            currentTarifa.Precio = cliente.Precio;
-            currentTarifa.Personas = cliente.Personas;
+            currentTarifa.Precio = tarifa.Precio;
+            currentTarifa.Personas = tarifa.Personas;
+            currentTarifa.TipoHabitacionId = tarifa.TipoHabitacionId;
+            currentTarifa.Fecha = tarifa.Fecha;
             currentTarifa.FechaUpdate = DateTime.Now;
 
             db.Entry(currentTarifa).State = EntityState.Modified;
